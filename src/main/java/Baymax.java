@@ -12,7 +12,7 @@ public class Baymax {
         }
         System.out.println(horizontal_line);
     }
-    private static Task markTask(String input, ArrayList<Task> taskList, String cmd) throws BaymaxException {
+    private static Task getTask(String input, ArrayList<Task> taskList, String cmd) throws BaymaxException {
         String[] parts = input.split(" ");
         if (parts.length < 2) {
             throw new BaymaxException("Do let me know which task to mark/unmark. ");
@@ -81,7 +81,7 @@ public class Baymax {
                         reply("Here are your tasks: ", allTaskArray.toArray(new String[0]));
                     }
                     case "mark", "unmark" -> {
-                        Task theTask = markTask(input, taskList, cmd);
+                        Task theTask = getTask(input, taskList, cmd);
                         theTask.marker(cmd.equals("mark"));
                         String markMsg = cmd.equals("mark")
                                 ? "Okie dokie this is marked as done: "
@@ -93,6 +93,13 @@ public class Baymax {
                         taskList.add(newTask);
                         reply("Got it. Added this task: ",
                                 newTask.toString(),
+                                "Now you have " + taskList.size() + " tasks in the list. ");
+                    }
+                    case "delete" -> {
+                        Task theTask = getTask(input, taskList, cmd);
+                        taskList.remove(theTask);
+                        reply("Task removed!",
+                                "   " + theTask,
                                 "Now you have " + taskList.size() + " tasks in the list. ");
                     }
                     default -> {
