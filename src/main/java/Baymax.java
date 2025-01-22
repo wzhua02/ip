@@ -29,7 +29,7 @@ public class Baymax {
         Task newTask;
         int spaceIdx = input.indexOf(" ");
         if (spaceIdx < 0) {
-            throw new BaymaxException("Do let me know what todo task you wish to add. ");
+            throw new BaymaxException("Let me know what task you wish to add. ");
         }
         switch (cmd) {
             case "todo" -> {
@@ -38,6 +38,9 @@ public class Baymax {
             }
             case "deadline" -> {
                 int byIdx = input.indexOf("/by");
+                if (byIdx < 0) {
+                    throw new BaymaxException("Let me know the deadline of the task. ");
+                }
                 String taskDescribe = input.substring(spaceIdx + 1, byIdx - 1);
                 String deadlineDate = input.substring(byIdx + 4);
                 newTask = new Deadline(taskDescribe, cmd, deadlineDate);
@@ -45,6 +48,9 @@ public class Baymax {
             case "event" -> {
                 int fromIdx = input.indexOf("/from");
                 int toIdx = input.indexOf("/to");
+                if (fromIdx < 0 || toIdx < 0) {
+                    throw new BaymaxException("Let me know when the event starts and ends. ");
+                }
                 String taskDescribe = input.substring(spaceIdx + 1, fromIdx - 1);
                 String fromDate = input.substring(fromIdx + 6, toIdx - 1);
                 String toDate = input.substring(toIdx + 4);
