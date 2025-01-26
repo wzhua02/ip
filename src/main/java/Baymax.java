@@ -1,14 +1,16 @@
+import java.io.PrintStream;
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Baymax {
+    private static final String INDENT = "    ";
+
     private static void reply(String msg, String... otherMsgs) {
-        String indent = "    ";
-        String horizontal_line = indent + "_".repeat(50);
+        String horizontal_line = "_".repeat(50);
         System.out.println(horizontal_line);
-        System.out.println(indent + msg);
+        System.out.println(msg);
         for (String msgs : otherMsgs) {
-            System.out.println(indent + msgs);
+            System.out.println(msgs);
         }
         System.out.println(horizontal_line);
     }
@@ -63,6 +65,18 @@ public class Baymax {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         ArrayList<Task> taskList = new ArrayList<>();
+
+        System.setOut(new PrintStream(System.out) {
+            @Override
+            public void println(String x) {
+                super.println(INDENT + x); // Add indentation before printing
+            }
+
+            @Override
+            public void println(Object x) {
+                super.println(INDENT + x); // Add indentation for Object toString()
+            }
+        });
 
         //Chatbot function
         reply("Hello! I'm Baymax", "How can I assist you?");
