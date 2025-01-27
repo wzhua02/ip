@@ -6,12 +6,34 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Baymax {
     private static final String INDENT = "    ";
     private static final Path FILE_PATH = Paths.get("data", "tasks.txt");
+
+    public static LocalDateTime parseDateTime(String dateTimeStr) throws BaymaxException{
+        String[] patterns = {
+            "yyyy-MM-dd HH:mm",     //e.g. 2025-01-27 12:30
+            "dd/MM/yyyy HH:mm",     //e.g. 27/01/2025 12:30
+            "yyyy MM dd HH:mm",     //e.g. 2025 01 27 12:30
+        };
+        for (String pattern : patterns) {
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+                return LocalDateTime.parse(dateTimeStr, formatter);
+            } catch (DateTimeParseException e) {
+                // Ignore and try the next pattern
+            }
+        }
+        throw new BaymaxException("No valid date-time pattern found for: " + dateTimeStr
+                + "\nTry to format the date-time in the following pattern:"
+                + "\ne.g. 2025-01-27 12:30\n27/01/2025 12:30\n2025 01 27 12:30");
+    }
 
     private static void reply(String msg, String... otherMsgs) {
         String horizontal_line = "_".repeat(50);
@@ -52,8 +74,8 @@ public class Baymax {
                     throw new BaymaxException("Let me know the deadline of the task. ");
                 }
                 String taskDescribe = input.substring(spaceIdx + 1, byIdx - 1);
-                String deadlineDate = input.substring(byIdx + 4);
-                newTask = new Deadline(taskDescribe, cmd, deadlineDate);
+                String deadlineString = input.substring(byIdx + 4);
+                newTask = new Deadline(taskDescribe, cmd, parseDateTime(deadlineString));
             }
             case "event" -> {
                 int fromIdx = input.indexOf("/from");
@@ -64,7 +86,7 @@ public class Baymax {
                 String taskDescribe = input.substring(spaceIdx + 1, fromIdx - 1);
                 String fromDate = input.substring(fromIdx + 6, toIdx - 1);
                 String toDate = input.substring(toIdx + 4);
-                newTask = new Event(taskDescribe, cmd, fromDate, toDate);
+                newTask = new Event(taskDescribe, cmd, parseDateTime(fromDate), parseDateTime(toDate));
             }
             default -> throw new BaymaxException("What type of task is this?");
         }
@@ -91,8 +113,9 @@ public class Baymax {
                 boolean isDone = parts[1].equals("1");
                 switch (type) {
                 case "T" -> taskList.add(new Todo(parts[2], type, isDone));
-                case "D" -> taskList.add(new Deadline(parts[2], type, parts[3], isDone));
-                case "E" -> taskList.add(new Event(parts[2], type, parts[3], parts[4], isDone));
+                case "D" -> taskList.add(new Deadline(parts[2], type, parseDateTime(parts[3]), isDone));
+                case "E" -> taskList.add(new Event(parts[2], type, parseDateTime(parts[3]), parseDateTime(parts[4]),
+                        isDone));
                 }
             }
             fileScanner.close();
@@ -100,6 +123,8 @@ public class Baymax {
             System.err.println("File not Found Error: " + e.getMessage());
         } catch (IOException e) {
             System.err.println("Create File Error: " + e.getMessage());
+        } catch (BaymaxException e) {
+            System.out.println("Date format Error: " + e.getMessage());
         }
         return taskList;
     }
@@ -175,7 +200,7 @@ public class Baymax {
                             "Now you have " + taskList.size() + " tasks in the list. ");
                 }
                 default -> {
-                    throw new BaymaxException("I do not understand what you are saying. ");
+                    throw new BaymaxException("I cannot comprehend what you are saying. ");
                 }
                 }
             } catch (BaymaxException e) {
@@ -185,7 +210,7 @@ public class Baymax {
                 cmd = input.split(" ")[0];
             }
         }
-        reply("Bye. Hope to see you again soon!");
+        reply("Goodbye! *slowly deflates*");
 
     }
 }

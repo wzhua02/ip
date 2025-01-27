@@ -1,16 +1,19 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Deadline extends Task {
     protected String description;
     protected boolean isDone;
     protected String type;
-    protected String deadlineDate;
+    protected LocalDateTime deadlineDate;
 
-    public Deadline(String description, String type, String deadlineDate) {
+    public Deadline(String description, String type, LocalDateTime deadlineDate) {
         super(description, type);
         this.type = "D";
         this.deadlineDate = deadlineDate;
     }
 
-    public Deadline(String description, String type, String deadlineDate, boolean isDone) {
+    public Deadline(String description, String type, LocalDateTime deadlineDate, boolean isDone) {
         super(description, type);
         this.type = "D";
         this.deadlineDate = deadlineDate;
@@ -18,7 +21,7 @@ public class Deadline extends Task {
     }
 
     public String getDeadlineDate() {
-        return deadlineDate;
+        return deadlineDate.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm"));
     }
 
     @Override
@@ -30,6 +33,7 @@ public class Deadline extends Task {
 
     @Override
     public String toSaveFormat() {
-        return "D | " + (isDone ? "1" : "0") + " | " + super.toString() + " | " + getDeadlineDate();
+        return "D | " + (isDone ? "1" : "0") + " | " + super.toString() + " | "
+                + this.deadlineDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 }

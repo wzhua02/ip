@@ -1,5 +1,4 @@
 T | 1 | read book
-D | 0 | return book | June 6th
-E | 0 | project meeting | Aug 6th 2pm | 4pm
+D | 0 | return book | 2025-05-01 15:30
+E | 0 | project meeting | 2025-01-25 14:30 | 2025-01-25 16:30
 T | 1 | join sports club
-T | 0 | Ponder
