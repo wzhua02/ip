@@ -8,10 +8,21 @@ public class Todo extends Task {
         this.type = "T";
     }
 
+    public Todo(String description, String type, boolean isDone) {
+        super(description, type);
+        this.type = "T";
+        this.isDone = isDone;
+    }
+
     @Override
     public String toString() {
         String typeStr = "[" + this.type + "]";
         String markStr = "[" + super.getStatusIcon() + "] ";
         return typeStr + markStr + super.toString();
+    }
+
+    @Override
+    public String toSaveFormat() {
+        return "T | " + (isDone ? "1" : "0") + " | " + super.toString();
     }
 }
