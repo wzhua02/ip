@@ -7,14 +7,14 @@ public class Deadline extends Task {
     protected String type;
     protected LocalDateTime deadlineDate;
 
-    public Deadline(String description, String type, LocalDateTime deadlineDate) {
-        super(description, type);
+    public Deadline(String description, LocalDateTime deadlineDate) {
+        super(description);
         this.type = "D";
         this.deadlineDate = deadlineDate;
     }
 
-    public Deadline(String description, String type, LocalDateTime deadlineDate, boolean isDone) {
-        super(description, type);
+    public Deadline(String description, LocalDateTime deadlineDate, boolean isDone) {
+        super(description);
         this.type = "D";
         this.deadlineDate = deadlineDate;
         this.isDone = isDone;

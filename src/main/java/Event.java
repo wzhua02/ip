@@ -8,15 +8,15 @@ public class Event extends Task {
     protected LocalDateTime toDate;
     protected LocalDateTime fromDate;
 
-    public Event(String description, String type, LocalDateTime fromDate, LocalDateTime toDate) {
-        super(description, type);
+    public Event(String description, LocalDateTime fromDate, LocalDateTime toDate) {
+        super(description);
         this.type = "E";
         this.toDate = toDate;
         this.fromDate = fromDate;
     }
 
-    public Event(String description, String type, LocalDateTime fromDate, LocalDateTime toDate, boolean isDone) {
-        super(description, type);
+    public Event(String description, LocalDateTime fromDate, LocalDateTime toDate, boolean isDone) {
+        super(description);
         this.type = "E";
         this.toDate = toDate;
         this.fromDate = fromDate;

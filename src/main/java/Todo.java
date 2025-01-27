@@ -3,13 +3,13 @@ public class Todo extends Task {
     protected boolean isDone;
     protected String type;
 
-    public Todo(String description, String type) {
-        super(description, type);
+    public Todo(String description) {
+        super(description);
         this.type = "T";
     }
 
-    public Todo(String description, String type, boolean isDone) {
-        super(description, type);
+    public Todo(String description, boolean isDone) {
+        super(description);
         this.type = "T";
         this.isDone = isDone;
     }
