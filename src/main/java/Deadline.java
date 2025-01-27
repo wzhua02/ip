@@ -10,6 +10,13 @@ public class Deadline extends Task {
         this.deadlineDate = deadlineDate;
     }
 
+    public Deadline(String description, String type, String deadlineDate, boolean isDone) {
+        super(description, type);
+        this.type = "D";
+        this.deadlineDate = deadlineDate;
+        this.isDone = isDone;
+    }
+
     public String getDeadlineDate() {
         return deadlineDate;
     }
@@ -19,5 +26,10 @@ public class Deadline extends Task {
         String typeStr = "[" + this.type + "]";
         String markStr = "[" + super.getStatusIcon() + "] ";
         return typeStr + markStr + super.toString() + " (by: " + getDeadlineDate() + ")";
+    }
+
+    @Override
+    public String toSaveFormat() {
+        return "D | " + (isDone ? "1" : "0") + " | " + super.toString() + " | " + getDeadlineDate();
     }
 }

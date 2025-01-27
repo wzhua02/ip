@@ -1,9 +1,17 @@
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Baymax {
     private static final String INDENT = "    ";
+    private static final Path FILE_PATH = Paths.get("data", "tasks.txt");
 
     private static void reply(String msg, String... otherMsgs) {
         String horizontal_line = "_".repeat(50);
@@ -62,9 +70,56 @@ public class Baymax {
         }
         return newTask;
     }
+
+    private static ArrayList<Task> loadTasks() {
+        ArrayList<Task> taskList = new ArrayList<>();
+        File dataFile = null;
+        try {
+            dataFile = new File(FILE_PATH.toString());
+            if (!dataFile.exists()) {
+                File dataDir = new File(FILE_PATH.getParent().toString());
+                dataDir.mkdirs();
+                dataFile.createNewFile();
+                System.out.println("\"tasks.txt\" not found in directory. Created a new one.");
+                return taskList;
+            }
+            Scanner fileScanner = new Scanner(dataFile);
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                String[] parts = line.split(" \\| ");
+                String type = parts[0];
+                boolean isDone = parts[1].equals("1");
+                switch (type) {
+                case "T" -> taskList.add(new Todo(parts[2], type, isDone));
+                case "D" -> taskList.add(new Deadline(parts[2], type, parts[3], isDone));
+                case "E" -> taskList.add(new Event(parts[2], type, parts[3], parts[4], isDone));
+                }
+            }
+            fileScanner.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("File not Found Error: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Create File Error: " + e.getMessage());
+        }
+        return taskList;
+    }
+
+    private static void saveTasks(ArrayList<Task> taskList) {
+        try {
+            File dataFile = new File(FILE_PATH.toString());
+            PrintWriter writer = new PrintWriter(new FileWriter(dataFile));
+            for (Task task : taskList) {
+                writer.println(task.toSaveFormat());
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("Failed to save tasks to file.");
+        }
+    }
+
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        ArrayList<Task> taskList = new ArrayList<>();
+        ArrayList<Task> taskList = loadTasks();
 
         System.setOut(new PrintStream(System.out) {
             @Override
@@ -83,42 +138,51 @@ public class Baymax {
         String input = scan.nextLine();
         String cmd = input.split(" ")[0];
 
+        if (input.equals("test")) {
+            File dataDir = new File("maker");
+            System.out.println(dataDir);
+            input = "bye";
+        }
+
         while (!input.startsWith("bye")) {
             try {
                 switch (cmd) {
-                    case "list" -> {
-                        ArrayList<String> allTaskArray = new ArrayList<>();
-                        for (int i = 0; i < taskList.size(); i++) {
-                            Task task = taskList.get(i);
-                            allTaskArray.add((i + 1) + ". " + task);
-                        }
-                        reply("Here are your tasks: ", allTaskArray.toArray(new String[0]));
+                case "list" -> {
+                    ArrayList<String> allTaskArray = new ArrayList<>();
+                    for (int i = 0; i < taskList.size(); i++) {
+                        Task task = taskList.get(i);
+                        allTaskArray.add((i + 1) + ". " + task);
                     }
-                    case "mark", "unmark" -> {
-                        Task theTask = getTask(input, taskList, cmd);
-                        theTask.marker(cmd.equals("mark"));
-                        String markMsg = cmd.equals("mark")
-                                ? "Okie dokie this is marked as done: "
-                                : "Okie this is marked as not done yet: ";
-                        reply(markMsg, "   " + theTask);
-                    }
-                    case "todo", "deadline", "event" -> {
-                        Task newTask = createTask(input, cmd);
-                        taskList.add(newTask);
-                        reply("Got it. Added this task: ",
-                                newTask.toString(),
-                                "Now you have " + taskList.size() + " tasks in the list. ");
-                    }
-                    case "delete" -> {
-                        Task theTask = getTask(input, taskList, cmd);
-                        taskList.remove(theTask);
-                        reply("Task removed!",
-                                "   " + theTask,
-                                "Now you have " + taskList.size() + " tasks in the list. ");
-                    }
-                    default -> {
-                        throw new BaymaxException("I do not understand what you are saying. ");
-                    }
+                    reply("Here are your tasks: ", allTaskArray.toArray(new String[0]));
+                }
+                case "mark", "unmark" -> {
+                    Task theTask = getTask(input, taskList, cmd);
+                    theTask.marker(cmd.equals("mark"));
+                    saveTasks(taskList);
+                    String markMsg = cmd.equals("mark")
+                            ? "Okie dokie this is marked as done: "
+                            : "Okie this is marked as not done yet: ";
+                    reply(markMsg, "   " + theTask);
+                }
+                case "todo", "deadline", "event" -> {
+                    Task newTask = createTask(input, cmd);
+                    taskList.add(newTask);
+                    saveTasks(taskList);
+                    reply("Got it. Added this task: ",
+                            newTask.toString(),
+                            "Now you have " + taskList.size() + " tasks in the list. ");
+                }
+                case "delete" -> {
+                    Task theTask = getTask(input, taskList, cmd);
+                    taskList.remove(theTask);
+                    saveTasks(taskList);
+                    reply("Task removed!",
+                            "   " + theTask,
+                            "Now you have " + taskList.size() + " tasks in the list. ");
+                }
+                default -> {
+                    throw new BaymaxException("I do not understand what you are saying. ");
+                }
                 }
             } catch (BaymaxException e) {
                 reply(e.getMessage());
@@ -128,5 +192,6 @@ public class Baymax {
             }
         }
         reply("Bye. Hope to see you again soon!");
+
     }
 }

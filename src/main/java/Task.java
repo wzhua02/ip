@@ -1,4 +1,4 @@
-public class Task {
+abstract class Task {
     protected String description;
     protected boolean isDone;
     protected String type;
@@ -21,4 +21,6 @@ public class Task {
     public String toString() {
         return description;
     }
+
+    public abstract String toSaveFormat();
 }
