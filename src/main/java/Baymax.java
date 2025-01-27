@@ -138,12 +138,6 @@ public class Baymax {
         String input = scan.nextLine();
         String cmd = input.split(" ")[0];
 
-        if (input.equals("test")) {
-            File dataDir = new File("maker");
-            System.out.println(dataDir);
-            input = "bye";
-        }
-
         while (!input.startsWith("bye")) {
             try {
                 switch (cmd) {
