@@ -42,6 +42,7 @@ public class Event extends Task {
     @Override
     public String toSaveFormat() {
         return "E | " + (isDone ? "1" : "0") + " | " + super.toString()
-                + " | " + this.getFromDate() + " | " + this.getToDate();
+                + " | " + this.fromDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                + " | " + this.toDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 }

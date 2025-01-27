@@ -31,8 +31,10 @@ public class Baymax {
             }
         }
         throw new BaymaxException("No valid date-time pattern found for: " + dateTimeStr
-                + "\nTry to format the date-time in the following pattern:"
-                + "\ne.g. 2025-01-27 12:30\n27/01/2025 12:30\n2025 01 27 12:30");
+                + "\n" + INDENT + "Try to format the date-time in the following pattern:"
+                + "\n" + INDENT + "e.g. 2025-01-27 12:30"
+                + "\n" + INDENT + INDENT + " 27/01/2025 12:30"
+                + "\n" + INDENT + INDENT + " 2025 01 27 12:30");
     }
 
     private static void reply(String msg, String... otherMsgs) {
@@ -47,11 +49,11 @@ public class Baymax {
     private static Task getTask(String input, ArrayList<Task> taskList, String cmd) throws BaymaxException {
         String[] parts = input.split(" ");
         if (parts.length < 2) {
-            throw new BaymaxException("Do let me know which task to mark/unmark. ");
+            throw new BaymaxException("Do let me know which task to mark/unmark.");
         }
         int idx = Integer.parseInt(parts[1]) - 1;
         if (idx < 0 || idx >= taskList.size()) {
-            throw new BaymaxException("I do not know which task you are referring to. ");
+            throw new BaymaxException("I do not know which task you are referring to.");
         }
         Task theTask = taskList.get(idx);
         theTask.marker(cmd.equals("mark"));
@@ -61,7 +63,7 @@ public class Baymax {
         Task newTask;
         int spaceIdx = input.indexOf(" ");
         if (spaceIdx < 0) {
-            throw new BaymaxException("Let me know what task you wish to add. ");
+            throw new BaymaxException("Let me know what task you wish to add.");
         }
         switch (cmd) {
             case "todo" -> {
@@ -71,7 +73,7 @@ public class Baymax {
             case "deadline" -> {
                 int byIdx = input.indexOf("/by");
                 if (byIdx < 0) {
-                    throw new BaymaxException("Let me know the deadline of the task. ");
+                    throw new BaymaxException("Let me know the deadline of the task.");
                 }
                 String taskDescribe = input.substring(spaceIdx + 1, byIdx - 1);
                 String deadlineString = input.substring(byIdx + 4);
@@ -81,7 +83,7 @@ public class Baymax {
                 int fromIdx = input.indexOf("/from");
                 int toIdx = input.indexOf("/to");
                 if (fromIdx < 0 || toIdx < 0) {
-                    throw new BaymaxException("Let me know when the event starts and ends. ");
+                    throw new BaymaxException("Let me know when the event starts and ends.");
                 }
                 String taskDescribe = input.substring(spaceIdx + 1, fromIdx - 1);
                 String fromDate = input.substring(fromIdx + 6, toIdx - 1);
@@ -172,24 +174,24 @@ public class Baymax {
                         Task task = taskList.get(i);
                         allTaskArray.add((i + 1) + ". " + task);
                     }
-                    reply("Here are your tasks: ", allTaskArray.toArray(new String[0]));
+                    reply("Here are your tasks:", allTaskArray.toArray(new String[0]));
                 }
                 case "mark", "unmark" -> {
                     Task theTask = getTask(input, taskList, cmd);
                     theTask.marker(cmd.equals("mark"));
                     saveTasks(taskList);
                     String markMsg = cmd.equals("mark")
-                            ? "Okie dokie this is marked as done: "
-                            : "Okie this is marked as not done yet: ";
+                            ? "Okie dokie this is marked as done:"
+                            : "Okie this is marked as not done yet:";
                     reply(markMsg, "   " + theTask);
                 }
                 case "todo", "deadline", "event" -> {
                     Task newTask = createTask(input, cmd);
                     taskList.add(newTask);
                     saveTasks(taskList);
-                    reply("Got it. Added this task: ",
+                    reply("Got it. Added this task:",
                             newTask.toString(),
-                            "Now you have " + taskList.size() + " tasks in the list. ");
+                            "Now you have " + taskList.size() + " tasks in the list.");
                 }
                 case "delete" -> {
                     Task theTask = getTask(input, taskList, cmd);
@@ -197,10 +199,10 @@ public class Baymax {
                     saveTasks(taskList);
                     reply("Task removed!",
                             "   " + theTask,
-                            "Now you have " + taskList.size() + " tasks in the list. ");
+                            "Now you have " + taskList.size() + " tasks in the list.");
                 }
                 default -> {
-                    throw new BaymaxException("I cannot comprehend what you are saying. ");
+                    throw new BaymaxException("I cannot comprehend what you are saying.");
                 }
                 }
             } catch (BaymaxException e) {
