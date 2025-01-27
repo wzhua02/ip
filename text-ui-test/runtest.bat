@@ -19,3 +19,10 @@ java -classpath ..\bin Baymax < input.txt > ACTUAL.TXT
 
 REM compare the output to the expected output
 FC ACTUAL.TXT EXPECTED.TXT
+IF ERRORLEVEL 1 (
+    echo ********** TEST FAILED **********
+    echo See differences above.
+    exit /b 1
+) ELSE (
+    echo TEST PASSED!
+)

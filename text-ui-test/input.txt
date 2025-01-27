@@ -1,8 +1,8 @@
 todo borrow book
 list
-deadline return book /by Sunday
+deadline do homework /by 2025-01-24 16:30
 list
-event project meeting /from Mon 2pm /to 4pm
+event party /from 2025-01-27 20:00 /to 2025-01-27 22:00
 list
 mark 1
 unmark 1
@@ -10,8 +10,12 @@ delete 1
 bwahhduehuhr
 todo
 deadline sdfsf
+deadline wrongDate /by efuh
 event aaaaaa /dfs
+event wrongDate /from sdada /to 09239123
 mark 1000
 unmark 0
 delete 1000
+delete 1
+delete 1
 bye
