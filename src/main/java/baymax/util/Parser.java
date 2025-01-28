@@ -3,6 +3,7 @@ package baymax.util;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import baymax.exception.BaymaxException;
@@ -19,7 +20,9 @@ public class Parser {
         try {
             switch (cmd) {
             case "list" -> {
-                ui.reply("Here are your tasks:", Arrays.toString(tasks.toStringList().toArray(new String[0])));
+                ArrayList<String> replyList = tasks.toStringList();
+                replyList.add(0, "Here are your tasks:");
+                ui.reply(replyList.toArray(new String[0]));
             }
             case "mark", "unmark" -> {
                 String[] parts = input.split(" ");
@@ -61,9 +64,6 @@ public class Parser {
             }
         } catch (BaymaxException e) {
             ui.reply(e.getMessage());
-        } finally {
-            input = ui.getInput();
-            cmd = input.split(" ")[0];
         }
     }
     public static void parseCommand(String input) {
