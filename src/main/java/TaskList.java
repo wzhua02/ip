@@ -4,7 +4,6 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class TaskList {
-    private static final String INDENT = "    ";
     private final ArrayList<Task> taskList;
 
     public TaskList () {
@@ -20,35 +19,14 @@ public class TaskList {
                 boolean isDone = parts[1].equals("1");
                 switch (type) {
                 case "T" -> taskList.add(new Todo(parts[2], isDone));
-                case "D" -> taskList.add(new Deadline(parts[2], parseDateTime(parts[3]), isDone));
-                case "E" -> taskList.add(new Event(parts[2], parseDateTime(parts[3]), parseDateTime(parts[4]),
+                case "D" -> taskList.add(new Deadline(parts[2], Parser.parseDateTime(parts[3]), isDone));
+                case "E" -> taskList.add(new Event(parts[2], Parser.parseDateTime(parts[3]), Parser.parseDateTime(parts[4]),
                         isDone));
                 }
             }
         } catch (BaymaxException e) {
             System.err.println("Date format Error: " + e.getMessage());
         }
-    }
-
-    public static LocalDateTime parseDateTime(String dateTimeStr) throws BaymaxException {
-        String[] patterns = {
-                "yyyy-MM-dd HH:mm",     //e.g. 2025-01-27 12:30
-                "dd/MM/yyyy HH:mm",     //e.g. 27/01/2025 12:30
-                "yyyy MM dd HH:mm",     //e.g. 2025 01 27 12:30
-        };
-        for (String pattern : patterns) {
-            try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-                return LocalDateTime.parse(dateTimeStr, formatter);
-            } catch (DateTimeParseException e) {
-                // Ignore and try the next pattern
-            }
-        }
-        throw new BaymaxException("No valid date-time pattern found for: " + dateTimeStr
-                + "\n" + INDENT + "Try to format the date-time in the following pattern:"
-                + "\n" + INDENT + "e.g. 2025-01-27 12:30"
-                + "\n" + INDENT + INDENT + " 27/01/2025 12:30"
-                + "\n" + INDENT + INDENT + " 2025 01 27 12:30");
     }
 
     public ArrayList<String> toStringList() {
@@ -82,7 +60,7 @@ public class TaskList {
                 }
                 String taskDescribe = input.substring(spaceIdx + 1, byIdx - 1);
                 String deadlineString = input.substring(byIdx + 4);
-                newTask = new Deadline(taskDescribe, parseDateTime(deadlineString));
+                newTask = new Deadline(taskDescribe, Parser.parseDateTime(deadlineString));
             }
             case "event" -> {
                 int fromIdx = input.indexOf("/from");
@@ -93,7 +71,7 @@ public class TaskList {
                 String taskDescribe = input.substring(spaceIdx + 1, fromIdx - 1);
                 String fromDate = input.substring(fromIdx + 6, toIdx - 1);
                 String toDate = input.substring(toIdx + 4);
-                newTask = new Event(taskDescribe, parseDateTime(fromDate), parseDateTime(toDate));
+                newTask = new Event(taskDescribe, Parser.parseDateTime(fromDate), Parser.parseDateTime(toDate));
             }
             default -> throw new BaymaxException("What type of task is this?");
             }
