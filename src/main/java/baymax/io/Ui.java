@@ -1,3 +1,5 @@
+package baymax.io;
+
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
@@ -27,11 +29,11 @@ public class Ui {
         this.out = out;
     }
 
-    public static String getInput() {
+    public String getInput() {
         return scan.nextLine();
     }
 
-    public static void reply(String... msgs) {
+    public void reply(String... msgs) {
         String horizontal_line = "_".repeat(50);
         System.out.println(horizontal_line);
         for (String msg : msgs) {

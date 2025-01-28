@@ -1,17 +1,25 @@
+package baymax.util;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
+import baymax.exception.BaymaxException;
+import baymax.io.Storage;
+import baymax.io.Ui;
+import baymax.task.Task;
+import baymax.task.TaskList;
+
 public class Parser {
     private static final String INDENT = "    ";
 
-    public static void parse(String input, TaskList tasks, Storage storage) {
+    public static void parse(String input, Ui ui, TaskList tasks, Storage storage) {
         String cmd = input.split(" ")[0];
         try {
             switch (cmd) {
             case "list" -> {
-                Ui.reply("Here are your tasks:", Arrays.toString(tasks.toStringList().toArray(new String[0])));
+                ui.reply("Here are your tasks:", Arrays.toString(tasks.toStringList().toArray(new String[0])));
             }
             case "mark", "unmark" -> {
                 String[] parts = input.split(" ");
@@ -28,19 +36,19 @@ public class Parser {
                 String markMsg = cmd.equals("mark")
                         ? "Okie dokie this is marked as done:"
                         : "Okie this is marked as not done yet:";
-                Ui.reply(markMsg, "   " + theTask);
+                ui.reply(markMsg, "   " + theTask);
             }
             case "todo", "deadline", "event" -> {
                 Task newTask = tasks.addTask(input, cmd);
                 tasks.save(storage);
-                Ui.reply("Got it. Added this task:",
+                ui.reply("Got it. Added this task:",
                         newTask.toString(),
                         "Now you have " + tasks.size() + " tasks in the list.");
             }
             case "delete" -> {
                 Task theTask = tasks.removeTask(input);
                 tasks.save(storage);
-                Ui.reply("Task removed!",
+                ui.reply("Task removed!",
                         "   " + theTask,
                         "Now you have " + tasks.size() + " tasks in the list.");
             }
@@ -52,9 +60,9 @@ public class Parser {
             }
             }
         } catch (BaymaxException e) {
-            Ui.reply(e.getMessage());
+            ui.reply(e.getMessage());
         } finally {
-            input = Ui.getInput();
+            input = ui.getInput();
             cmd = input.split(" ")[0];
         }
     }

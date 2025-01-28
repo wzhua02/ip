@@ -15,5 +15,5 @@ bin/
 
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
-/src/main/java/CodeTester.java
+/src/main/java/baymax/CodeTester.java
 text-ui-test/data/
