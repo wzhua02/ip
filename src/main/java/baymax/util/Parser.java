@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import baymax.exception.BaymaxException;
 import baymax.io.Storage;
@@ -12,9 +11,20 @@ import baymax.io.Ui;
 import baymax.task.Task;
 import baymax.task.TaskList;
 
+/**
+ * The Parser class is responsible for parsing user input and executing the corresponding commands.
+ */
 public class Parser {
     private static final String INDENT = "    ";
 
+    /**
+     * Parses the user input and executes the appropriate command.
+     *
+     * @param input   The user input string.
+     * @param ui      The UI handler for displaying messages.
+     * @param tasks   The TaskList containing user tasks.
+     * @param storage The Storage handler for saving and loading tasks.
+     */
     public static void parse(String input, Ui ui, TaskList tasks, Storage storage) {
         String cmd = input.split(" ")[0];
         try {
@@ -56,7 +66,7 @@ public class Parser {
                         "Now you have " + tasks.size() + " tasks in the list.");
             }
             case "bye" -> {
-                //do nothing
+                // Do nothing
             }
             default -> {
                 throw new BaymaxException("I cannot comprehend what you are saying.");
@@ -66,15 +76,28 @@ public class Parser {
             ui.reply(e.getMessage());
         }
     }
+
+    /**
+     * Parse a command string. Yet to be implemented.
+     *
+     * @param input The user input string.
+     */
     public static void parseCommand(String input) {
         String cmd = input.split(" ")[0];
     }
 
+    /**
+     * Parses a date-time string into a LocalDateTime object.
+     *
+     * @param dateTimeStr The date-time string to be parsed.
+     * @return A LocalDateTime object representing the parsed date and time.
+     * @throws BaymaxException If the date-time string does not match any valid format.
+     */
     public static LocalDateTime parseDateTime(String dateTimeStr) throws BaymaxException {
         String[] patterns = {
-                "yyyy-MM-dd HH:mm",     //e.g. 2025-01-27 12:30
-                "dd/MM/yyyy HH:mm",     //e.g. 27/01/2025 12:30
-                "yyyy MM dd HH:mm",     //e.g. 2025 01 27 12:30
+                "yyyy-MM-dd HH:mm",     // e.g. 2025-01-27 12:30
+                "dd/MM/yyyy HH:mm",     // e.g. 27/01/2025 12:30
+                "yyyy MM dd HH:mm",     // e.g. 2025 01 27 12:30
         };
         for (String pattern : patterns) {
             try {
