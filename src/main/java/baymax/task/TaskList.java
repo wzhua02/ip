@@ -1,6 +1,3 @@
-/**
- * Represents a list of tasks and provides operations to manage them.
- */
 package baymax.task;
 
 import java.util.ArrayList;
@@ -24,6 +21,7 @@ public class TaskList {
 
     /**
      * Constructs a TaskList from a list of task strings.
+     * Each task string is parsed and converted into the appropriate task type.
      *
      * @param taskListString The list of task strings retrieved from storage.
      */
@@ -39,7 +37,7 @@ public class TaskList {
                 case "D" -> taskList.add(new Deadline(parts[2], Parser.parseDateTime(parts[3]), isDone));
                 case "E" -> taskList.add(new Event(parts[2], Parser.parseDateTime(parts[3]),
                         Parser.parseDateTime(parts[4]), isDone));
-                default -> throw new BaymaxException("Task type not found. ");
+                default -> throw new BaymaxException("Task type not found.");
                 }
             }
         } catch (BaymaxException e) {
@@ -49,6 +47,7 @@ public class TaskList {
 
     /**
      * Returns a list of task descriptions formatted as strings.
+     * Each task is numbered sequentially.
      *
      * @return A list of task descriptions.
      */
@@ -64,37 +63,50 @@ public class TaskList {
     /**
      * Retrieves a task by its index.
      *
-     * @param idx The index of the task.
+     * @param idx The index of the task (0-based).
      * @return The task at the specified index.
      */
     public Task getTask(int idx) {
         return taskList.get(idx);
     }
 
+    /**
+     * Retrieves the 1-based index of a given task in the task list.
+     *
+     * @param task The task to find.
+     * @return The 1-based index of the task, or 0 if not found.
+     */
     public int getTaskIdx(Task task) {
         return taskList.indexOf(task) + 1;
     }
 
     /**
-     * Adds a task to the list based on input and task type.
+     * Adds a task to the list.
      *
      * @param newTask The task to add to the list.
-     * @return The newly added task.
-     * @throws BaymaxException If the input format is invalid.
+     * @throws BaymaxException If there is an issue with adding the task.
      */
     public void addTask(Task newTask) throws BaymaxException {
         taskList.add(newTask);
     }
+
     /**
-     * Removes a task from the list based on input.
+     * Removes a task from the list.
      *
      * @param theTask The task to remove from the list.
-     * @throws BaymaxException If the task index is invalid.
+     * @throws BaymaxException If the task is not found.
      */
     public void removeTask(Task theTask) throws BaymaxException {
         taskList.remove(theTask);
     }
 
+    /**
+     * Finds tasks that contain the specified substring in their descriptions.
+     *
+     * @param subString The substring to search for.
+     * @return A list of tasks that contain the given substring.
+     * @throws BaymaxException If no tasks are found containing the substring.
+     */
     public ArrayList<Task> findTask(String subString) throws BaymaxException {
         ArrayList<Task> foundTasks = new ArrayList<>();
 
@@ -121,7 +133,7 @@ public class TaskList {
     }
 
     /**
-     * Saves the task list to storage.
+     * Saves the current task list to the specified storage.
      *
      * @param storage The storage system to save tasks to.
      */

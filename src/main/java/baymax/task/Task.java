@@ -46,12 +46,19 @@ public abstract class Task {
         return description;
     }
 
+    /**
+     * Retrieves the description of the task.
+     *
+     * @return The description of the task.
+     */
     public String getDescription() {
         return description;
     }
 
     /**
      * Converts the task into a formatted string for saving.
+     * This method must be implemented by subclasses to define
+     * how the task should be stored.
      *
      * @return A formatted string representing the task for storage.
      */
