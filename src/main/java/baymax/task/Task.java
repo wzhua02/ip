@@ -46,6 +46,10 @@ public abstract class Task {
         return description;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     /**
      * Converts the task into a formatted string for saving.
      *

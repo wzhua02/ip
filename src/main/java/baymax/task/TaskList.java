@@ -71,70 +71,44 @@ public class TaskList {
         return taskList.get(idx);
     }
 
-    /**
-     * Adds a task to the list based on input and task type.
-     *
-     * @param input The raw user input specifying the task.
-     * @param type  The type of task to add (todo, deadline, event).
-     * @return The newly added task.
-     * @throws BaymaxException If the input format is invalid.
-     */
-    public Task addTask(String input, String type) throws BaymaxException {
-        Task newTask;
-        int spaceIdx = input.indexOf(" ");
-        if (spaceIdx < 0) {
-            throw new BaymaxException("Let me know what task you wish to add.");
-        }
-        switch (type) {
-        case "todo" -> {
-            String taskDescribe = input.substring(spaceIdx + 1);
-            newTask = new Todo(taskDescribe);
-        }
-        case "deadline" -> {
-            int byIdx = input.indexOf("/by");
-            if (byIdx < 0) {
-                throw new BaymaxException("Let me know the deadline of the task.");
-            }
-            String taskDescribe = input.substring(spaceIdx + 1, byIdx - 1);
-            String deadlineString = input.substring(byIdx + 4);
-            newTask = new Deadline(taskDescribe, Parser.parseDateTime(deadlineString));
-        }
-        case "event" -> {
-            int fromIdx = input.indexOf("/from");
-            int toIdx = input.indexOf("/to");
-            if (fromIdx < 0 || toIdx < 0) {
-                throw new BaymaxException("Let me know when the event starts and ends.");
-            }
-            String taskDescribe = input.substring(spaceIdx + 1, fromIdx - 1);
-            String fromDate = input.substring(fromIdx + 6, toIdx - 1);
-            String toDate = input.substring(toIdx + 4);
-            newTask = new Event(taskDescribe, Parser.parseDateTime(fromDate), Parser.parseDateTime(toDate));
-        }
-        default -> throw new BaymaxException("What type of task is this?");
-        }
-        taskList.add(newTask);
-        return newTask;
+    public int getTaskIdx(Task task) {
+        return taskList.indexOf(task) + 1;
     }
 
     /**
+     * Adds a task to the list based on input and task type.
+     *
+     * @param newTask The task to add to the list.
+     * @return The newly added task.
+     * @throws BaymaxException If the input format is invalid.
+     */
+    public void addTask(Task newTask) throws BaymaxException {
+        taskList.add(newTask);
+    }
+    /**
      * Removes a task from the list based on input.
      *
-     * @param input The raw user input specifying which task to remove.
-     * @return The removed task.
+     * @param theTask The task to remove from the list.
      * @throws BaymaxException If the task index is invalid.
      */
-    public Task removeTask(String input) throws BaymaxException {
-        String[] parts = input.split(" ");
-        if (parts.length < 2) {
-            throw new BaymaxException("Do let me know which task to remove.");
-        }
-        int idx = Integer.parseInt(parts[1]) - 1;
-        if (idx < 0 || idx >= taskList.size()) {
-            throw new BaymaxException("I do not know which task you are referring to.");
-        }
-        Task theTask = taskList.get(idx);
+    public void removeTask(Task theTask) throws BaymaxException {
         taskList.remove(theTask);
-        return theTask;
+    }
+
+    public ArrayList<Task> findTask(String subString) throws BaymaxException {
+        ArrayList<Task> foundTasks = new ArrayList<>();
+
+        for (Task task : taskList) {
+            if (task.getDescription().toLowerCase().contains(subString)) {
+                foundTasks.add(task);
+            }
+        }
+
+        if (foundTasks.isEmpty()) {
+            throw new BaymaxException("No tasks found containing: " + subString);
+        } else {
+            return foundTasks;
+        }
     }
 
     /**
