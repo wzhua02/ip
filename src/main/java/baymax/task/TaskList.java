@@ -1,3 +1,6 @@
+/**
+ * Represents a list of tasks and provides operations to manage them.
+ */
 package baymax.task;
 
 import baymax.exception.BaymaxException;
@@ -6,14 +9,25 @@ import baymax.util.Parser;
 
 import java.util.ArrayList;
 
+/**
+ * Manages a list of tasks, allowing addition, removal, retrieval, and persistence.
+ */
 public class TaskList {
     private final ArrayList<Task> taskList;
 
-    public TaskList () {
+    /**
+     * Constructs an empty TaskList.
+     */
+    public TaskList() {
         taskList = new ArrayList<>();
     }
 
-    public TaskList (ArrayList<String> taskListString) {
+    /**
+     * Constructs a TaskList from a list of task strings.
+     *
+     * @param taskListString The list of task strings retrieved from storage.
+     */
+    public TaskList(ArrayList<String> taskListString) {
         taskList = new ArrayList<>();
         try {
             for (String line : taskListString) {
@@ -32,6 +46,11 @@ public class TaskList {
         }
     }
 
+    /**
+     * Returns a list of task descriptions formatted as strings.
+     *
+     * @return A list of task descriptions.
+     */
     public ArrayList<String> toStringList() {
         ArrayList<String> returnList = new ArrayList<>();
         for (int i = 0; i < taskList.size(); i++) {
@@ -41,10 +60,24 @@ public class TaskList {
         return returnList;
     }
 
+    /**
+     * Retrieves a task by its index.
+     *
+     * @param idx The index of the task.
+     * @return The task at the specified index.
+     */
     public Task getTask(int idx) {
         return taskList.get(idx);
     }
 
+    /**
+     * Adds a task to the list based on input and task type.
+     *
+     * @param input The raw user input specifying the task.
+     * @param type  The type of task to add (todo, deadline, event).
+     * @return The newly added task.
+     * @throws BaymaxException If the input format is invalid.
+     */
     public Task addTask(String input, String type) throws BaymaxException {
         Task newTask;
         int spaceIdx = input.indexOf(" ");
@@ -52,40 +85,47 @@ public class TaskList {
             throw new BaymaxException("Let me know what task you wish to add.");
         }
         switch (type) {
-            case "todo" -> {
-                String taskDescribe = input.substring(spaceIdx + 1);
-                newTask = new Todo(taskDescribe);
+        case "todo" -> {
+            String taskDescribe = input.substring(spaceIdx + 1);
+            newTask = new Todo(taskDescribe);
+        }
+        case "deadline" -> {
+            int byIdx = input.indexOf("/by");
+            if (byIdx < 0) {
+                throw new BaymaxException("Let me know the deadline of the task.");
             }
-            case "deadline" -> {
-                int byIdx = input.indexOf("/by");
-                if (byIdx < 0) {
-                    throw new BaymaxException("Let me know the deadline of the task.");
-                }
-                String taskDescribe = input.substring(spaceIdx + 1, byIdx - 1);
-                String deadlineString = input.substring(byIdx + 4);
-                newTask = new Deadline(taskDescribe, Parser.parseDateTime(deadlineString));
+            String taskDescribe = input.substring(spaceIdx + 1, byIdx - 1);
+            String deadlineString = input.substring(byIdx + 4);
+            newTask = new Deadline(taskDescribe, Parser.parseDateTime(deadlineString));
+        }
+        case "event" -> {
+            int fromIdx = input.indexOf("/from");
+            int toIdx = input.indexOf("/to");
+            if (fromIdx < 0 || toIdx < 0) {
+                throw new BaymaxException("Let me know when the event starts and ends.");
             }
-            case "event" -> {
-                int fromIdx = input.indexOf("/from");
-                int toIdx = input.indexOf("/to");
-                if (fromIdx < 0 || toIdx < 0) {
-                    throw new BaymaxException("Let me know when the event starts and ends.");
-                }
-                String taskDescribe = input.substring(spaceIdx + 1, fromIdx - 1);
-                String fromDate = input.substring(fromIdx + 6, toIdx - 1);
-                String toDate = input.substring(toIdx + 4);
-                newTask = new Event(taskDescribe, Parser.parseDateTime(fromDate), Parser.parseDateTime(toDate));
-            }
-            default -> throw new BaymaxException("What type of task is this?");
-            }
+            String taskDescribe = input.substring(spaceIdx + 1, fromIdx - 1);
+            String fromDate = input.substring(fromIdx + 6, toIdx - 1);
+            String toDate = input.substring(toIdx + 4);
+            newTask = new Event(taskDescribe, Parser.parseDateTime(fromDate), Parser.parseDateTime(toDate));
+        }
+        default -> throw new BaymaxException("What type of task is this?");
+        }
         taskList.add(newTask);
         return newTask;
     }
 
+    /**
+     * Removes a task from the list based on input.
+     *
+     * @param input The raw user input specifying which task to remove.
+     * @return The removed task.
+     * @throws BaymaxException If the task index is invalid.
+     */
     public Task removeTask(String input) throws BaymaxException {
         String[] parts = input.split(" ");
         if (parts.length < 2) {
-            throw new BaymaxException("Do let me know which task to mark/unmark.");
+            throw new BaymaxException("Do let me know which task to remove.");
         }
         int idx = Integer.parseInt(parts[1]) - 1;
         if (idx < 0 || idx >= taskList.size()) {
@@ -96,10 +136,20 @@ public class TaskList {
         return theTask;
     }
 
+    /**
+     * Returns the number of tasks in the list.
+     *
+     * @return The size of the task list.
+     */
     public int size() {
         return taskList.size();
     }
 
+    /**
+     * Saves the task list to storage.
+     *
+     * @param storage The storage system to save tasks to.
+     */
     public void save(Storage storage) {
         ArrayList<String> saveList = new ArrayList<>();
         for (Task task : taskList) {
