@@ -33,7 +33,7 @@ application {
 }
 
 shadowJar {
-    archiveBaseName = "baymax.jar"
+    archiveBaseName = "baymax"
     archiveVersion = "v0.1"
     archiveClassifier = null
 }
