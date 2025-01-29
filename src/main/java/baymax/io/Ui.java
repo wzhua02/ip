@@ -34,11 +34,11 @@ public class Ui {
     }
 
     public void reply(String... msgs) {
-        String horizontal_line = "_".repeat(50);
-        System.out.println(horizontal_line);
+        String horizontalLine = "_".repeat(50);
+        System.out.println(horizontalLine);
         for (String msg : msgs) {
             System.out.println(msg);
         }
-        System.out.println(horizontal_line);
+        System.out.println(horizontalLine);
     }
 }

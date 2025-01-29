@@ -1,12 +1,12 @@
 package baymax;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import baymax.io.Storage;
 import baymax.io.Ui;
 import baymax.task.TaskList;
 import baymax.util.Parser;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Baymax {
     private static final Path FILE_PATH = Paths.get("data", "tasks.txt");

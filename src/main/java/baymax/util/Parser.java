@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import baymax.exception.BaymaxException;
 import baymax.io.Storage;
@@ -72,9 +71,9 @@ public class Parser {
 
     public static LocalDateTime parseDateTime(String dateTimeStr) throws BaymaxException {
         String[] patterns = {
-                "yyyy-MM-dd HH:mm",     //e.g. 2025-01-27 12:30
-                "dd/MM/yyyy HH:mm",     //e.g. 27/01/2025 12:30
-                "yyyy MM dd HH:mm",     //e.g. 2025 01 27 12:30
+            "yyyy-MM-dd HH:mm", //e.g. 2025-01-27 12:30
+            "dd/MM/yyyy HH:mm", //e.g. 27/01/2025 12:30
+            "yyyy MM dd HH:mm", //e.g. 2025 01 27 12:30
         };
         for (String pattern : patterns) {
             try {

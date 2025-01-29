@@ -1,19 +1,19 @@
 package baymax.task;
 
+import java.util.ArrayList;
+
 import baymax.exception.BaymaxException;
 import baymax.io.Storage;
 import baymax.util.Parser;
 
-import java.util.ArrayList;
-
 public class TaskList {
     private final ArrayList<Task> taskList;
 
-    public TaskList () {
+    public TaskList() {
         taskList = new ArrayList<>();
     }
 
-    public TaskList (ArrayList<String> taskListString) {
+    public TaskList(ArrayList<String> taskListString) {
         taskList = new ArrayList<>();
         try {
             for (String line : taskListString) {
@@ -23,12 +23,13 @@ public class TaskList {
                 switch (type) {
                 case "T" -> taskList.add(new Todo(parts[2], isDone));
                 case "D" -> taskList.add(new Deadline(parts[2], Parser.parseDateTime(parts[3]), isDone));
-                case "E" -> taskList.add(new Event(parts[2], Parser.parseDateTime(parts[3]), Parser.parseDateTime(parts[4]),
-                        isDone));
+                case "E" -> taskList.add(new Event(parts[2], Parser.parseDateTime(parts[3]),
+                        Parser.parseDateTime(parts[4]), isDone));
+                default -> throw new BaymaxException("Task type not found. ");
                 }
             }
         } catch (BaymaxException e) {
-            System.err.println("Date format Error: " + e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
@@ -52,32 +53,32 @@ public class TaskList {
             throw new BaymaxException("Let me know what task you wish to add.");
         }
         switch (type) {
-            case "todo" -> {
-                String taskDescribe = input.substring(spaceIdx + 1);
-                newTask = new Todo(taskDescribe);
+        case "todo" -> {
+            String taskDescribe = input.substring(spaceIdx + 1);
+            newTask = new Todo(taskDescribe);
+        }
+        case "deadline" -> {
+            int byIdx = input.indexOf("/by");
+            if (byIdx < 0) {
+                throw new BaymaxException("Let me know the deadline of the task.");
             }
-            case "deadline" -> {
-                int byIdx = input.indexOf("/by");
-                if (byIdx < 0) {
-                    throw new BaymaxException("Let me know the deadline of the task.");
-                }
-                String taskDescribe = input.substring(spaceIdx + 1, byIdx - 1);
-                String deadlineString = input.substring(byIdx + 4);
-                newTask = new Deadline(taskDescribe, Parser.parseDateTime(deadlineString));
+            String taskDescribe = input.substring(spaceIdx + 1, byIdx - 1);
+            String deadlineString = input.substring(byIdx + 4);
+            newTask = new Deadline(taskDescribe, Parser.parseDateTime(deadlineString));
+        }
+        case "event" -> {
+            int fromIdx = input.indexOf("/from");
+            int toIdx = input.indexOf("/to");
+            if (fromIdx < 0 || toIdx < 0) {
+                throw new BaymaxException("Let me know when the event starts and ends.");
             }
-            case "event" -> {
-                int fromIdx = input.indexOf("/from");
-                int toIdx = input.indexOf("/to");
-                if (fromIdx < 0 || toIdx < 0) {
-                    throw new BaymaxException("Let me know when the event starts and ends.");
-                }
-                String taskDescribe = input.substring(spaceIdx + 1, fromIdx - 1);
-                String fromDate = input.substring(fromIdx + 6, toIdx - 1);
-                String toDate = input.substring(toIdx + 4);
-                newTask = new Event(taskDescribe, Parser.parseDateTime(fromDate), Parser.parseDateTime(toDate));
-            }
-            default -> throw new BaymaxException("What type of task is this?");
-            }
+            String taskDescribe = input.substring(spaceIdx + 1, fromIdx - 1);
+            String fromDate = input.substring(fromIdx + 6, toIdx - 1);
+            String toDate = input.substring(toIdx + 4);
+            newTask = new Event(taskDescribe, Parser.parseDateTime(fromDate), Parser.parseDateTime(toDate));
+        }
+        default -> throw new BaymaxException("What type of task is this?");
+        }
         taskList.add(newTask);
         return newTask;
     }

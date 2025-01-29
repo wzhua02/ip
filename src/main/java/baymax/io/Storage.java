@@ -1,12 +1,17 @@
 package baymax.io;
 
-import java.io.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Storage {
-    File dataFile;
+    private File dataFile;
     public Storage(Path filePath) {
         try {
             dataFile = new File(filePath.toString());

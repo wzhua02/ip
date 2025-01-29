@@ -32,6 +32,17 @@ application {
     mainClass.set("baymax.Baymax")
 }
 
+checkstyle {
+    toolVersion = '10.2'
+}
+
+tasks.withType(Checkstyle).configureEach {
+    // Exclude files or directories
+    sourceSets.main.allJava.filter {
+        !it.name.contains("CodeTester.java")
+    }
+}
+
 shadowJar {
     archiveBaseName = "baymax"
     archiveVersion = "v0.1"
