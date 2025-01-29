@@ -20,7 +20,6 @@ public class Parser {
     public static void parse(String input, Ui ui, TaskList tasks, Storage storage) {
         String[] args = input.split(" ");
         String cmd = args[0];
-
         try {
             switch (cmd) {
             case "list" -> {
@@ -28,7 +27,7 @@ public class Parser {
                 replyList.add(0, "Here are your tasks:");
                 ui.reply(replyList.toArray(new String[0]));
             }
-            case "mark", "unmark" -> {
+            case "mark" -> {
                 if (args.length < 2) {
                     throw new BaymaxException("Do let me know which task to mark/unmark.");
                 }
@@ -37,11 +36,23 @@ public class Parser {
                     throw new BaymaxException("I do not know which task you are referring to.");
                 }
                 Task theTask = tasks.getTask(idx);
-                theTask.marker(cmd.equals("mark"));
+                theTask.marker(true);
                 tasks.save(storage);
-                String markMsg = cmd.equals("mark")
-                        ? "Okie dokie this is marked as done:"
-                        : "Okie this is marked as not done yet:";
+                String markMsg = "Okie dokie this is marked as done:";
+                ui.reply(markMsg, "   " + theTask);
+            }
+            case "unmark" -> {
+                if (args.length < 2) {
+                    throw new BaymaxException("Do let me know which task to mark/unmark.");
+                }
+                int idx = Integer.parseInt(args[1]) - 1;
+                if (idx < 0 || idx >= tasks.size()) {
+                    throw new BaymaxException("I do not know which task you are referring to.");
+                }
+                Task theTask = tasks.getTask(idx);
+                theTask.marker(false);
+                tasks.save(storage);
+                String markMsg = "Okie this is marked as not done yet:";
                 ui.reply(markMsg, "   " + theTask);
             }
             case "todo" -> {
@@ -115,7 +126,16 @@ public class Parser {
                 //do nothing
             }
             case "find" -> {
-
+                if (args.length < 2) {
+                    throw new BaymaxException("Let me know what task you would like to find.");
+                }
+                ArrayList<Task> foundTasks = tasks.findTask(args[1]);
+                ArrayList<String> replyMsgs = new ArrayList<>();
+                replyMsgs.add("These are the tasks you are looking for: ");
+                for (Task task : foundTasks) {
+                    replyMsgs.add(tasks.getTaskIdx(task) + ". " + task.toString());
+                }
+                ui.reply(replyMsgs.toArray(new String[0]));
             }
             default -> {
                 throw new BaymaxException("I cannot comprehend what you are saying.");

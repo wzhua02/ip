@@ -46,12 +46,32 @@ public class TaskList {
         return taskList.get(idx);
     }
 
+    public int getTaskIdx(Task task) {
+        return taskList.indexOf(task) + 1;
+    }
+
     public void addTask(Task newTask) throws BaymaxException {
         taskList.add(newTask);
     }
 
     public void removeTask(Task theTask) throws BaymaxException {
         taskList.remove(theTask);
+    }
+
+    public ArrayList<Task> findTask(String subString) throws BaymaxException {
+        ArrayList<Task> foundTasks = new ArrayList<>();
+
+        for (Task task : taskList) {
+            if (task.getDescription().toLowerCase().contains(subString)) {
+                foundTasks.add(task);
+            }
+        }
+
+        if (foundTasks.isEmpty()) {
+            throw new BaymaxException("No tasks found containing: " + subString);
+        } else {
+            return foundTasks;
+        }
     }
 
     public int size() {

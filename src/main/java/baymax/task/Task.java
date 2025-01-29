@@ -22,5 +22,9 @@ public abstract class Task {
         return description;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public abstract String toSaveFormat();
 }
