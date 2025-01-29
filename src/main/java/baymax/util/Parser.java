@@ -8,14 +8,19 @@ import java.util.ArrayList;
 import baymax.exception.BaymaxException;
 import baymax.io.Storage;
 import baymax.io.Ui;
+import baymax.task.Deadline;
+import baymax.task.Event;
 import baymax.task.Task;
 import baymax.task.TaskList;
+import baymax.task.Todo;
 
 public class Parser {
     private static final String INDENT = "    ";
 
     public static void parse(String input, Ui ui, TaskList tasks, Storage storage) {
-        String cmd = input.split(" ")[0];
+        String[] args = input.split(" ");
+        String cmd = args[0];
+
         try {
             switch (cmd) {
             case "list" -> {
@@ -24,11 +29,10 @@ public class Parser {
                 ui.reply(replyList.toArray(new String[0]));
             }
             case "mark", "unmark" -> {
-                String[] parts = input.split(" ");
-                if (parts.length < 2) {
+                if (args.length < 2) {
                     throw new BaymaxException("Do let me know which task to mark/unmark.");
                 }
-                int idx = Integer.parseInt(parts[1]) - 1;
+                int idx = Integer.parseInt(args[1]) - 1;
                 if (idx < 0 || idx >= tasks.size()) {
                     throw new BaymaxException("I do not know which task you are referring to.");
                 }
@@ -40,15 +44,68 @@ public class Parser {
                         : "Okie this is marked as not done yet:";
                 ui.reply(markMsg, "   " + theTask);
             }
-            case "todo", "deadline", "event" -> {
-                Task newTask = tasks.addTask(input, cmd);
+            case "todo" -> {
+                int spaceIdx = input.indexOf(" ");
+                if (spaceIdx < 0) {
+                    throw new BaymaxException("Let me know what task you wish to add.");
+                }
+                String taskDescribe = input.substring(spaceIdx + 1);
+                Task newTask = new Todo(taskDescribe);
+                tasks.addTask(newTask);
+                tasks.save(storage);
+                ui.reply("Got it. Added this task:",
+                        newTask.toString(),
+                        "Now you have " + tasks.size() + " tasks in the list.");
+            }
+            case "deadline" -> {
+                int spaceIdx = input.indexOf(" ");
+                if (spaceIdx < 0) {
+                    throw new BaymaxException("Let me know what task you wish to add.");
+                }
+                int byIdx = input.indexOf("/by");
+                if (byIdx < 0) {
+                    throw new BaymaxException("Let me know the deadline of the task.");
+                }
+                String taskDescribe = input.substring(spaceIdx + 1, byIdx - 1);
+                String deadlineString = input.substring(byIdx + 4);
+                Task newTask = new Deadline(taskDescribe, Parser.parseDateTime(deadlineString));
+                tasks.addTask(newTask);
+                tasks.save(storage);
+                ui.reply("Got it. Added this task:",
+                        newTask.toString(),
+                        "Now you have " + tasks.size() + " tasks in the list.");
+            }
+            case "event" -> {
+                int spaceIdx = input.indexOf(" ");
+                if (spaceIdx < 0) {
+                    throw new BaymaxException("Let me know what task you wish to add.");
+                }
+                int fromIdx = input.indexOf("/from");
+                int toIdx = input.indexOf("/to");
+                if (fromIdx < 0 || toIdx < 0) {
+                    throw new BaymaxException("Let me know when the event starts and ends.");
+                }
+                String taskDescribe = input.substring(spaceIdx + 1, fromIdx - 1);
+                String fromDate = input.substring(fromIdx + 6, toIdx - 1);
+                String toDate = input.substring(toIdx + 4);
+                Task newTask = new Event(taskDescribe, Parser.parseDateTime(fromDate), Parser.parseDateTime(toDate));
+                tasks.addTask(newTask);
                 tasks.save(storage);
                 ui.reply("Got it. Added this task:",
                         newTask.toString(),
                         "Now you have " + tasks.size() + " tasks in the list.");
             }
             case "delete" -> {
-                Task theTask = tasks.removeTask(input);
+                String[] parts = input.split(" ");
+                if (parts.length < 2) {
+                    throw new BaymaxException("Do let me know which task to mark/unmark.");
+                }
+                int idx = Integer.parseInt(parts[1]) - 1;
+                if (idx < 0 || idx >= tasks.size()) {
+                    throw new BaymaxException("I do not know which task you are referring to.");
+                }
+                Task theTask = tasks.getTask(idx);
+                tasks.removeTask(theTask);
                 tasks.save(storage);
                 ui.reply("Task removed!",
                         "   " + theTask,
@@ -56,6 +113,9 @@ public class Parser {
             }
             case "bye" -> {
                 //do nothing
+            }
+            case "find" -> {
+
             }
             default -> {
                 throw new BaymaxException("I cannot comprehend what you are saying.");

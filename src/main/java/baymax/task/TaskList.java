@@ -46,55 +46,12 @@ public class TaskList {
         return taskList.get(idx);
     }
 
-    public Task addTask(String input, String type) throws BaymaxException {
-        Task newTask;
-        int spaceIdx = input.indexOf(" ");
-        if (spaceIdx < 0) {
-            throw new BaymaxException("Let me know what task you wish to add.");
-        }
-        switch (type) {
-        case "todo" -> {
-            String taskDescribe = input.substring(spaceIdx + 1);
-            newTask = new Todo(taskDescribe);
-        }
-        case "deadline" -> {
-            int byIdx = input.indexOf("/by");
-            if (byIdx < 0) {
-                throw new BaymaxException("Let me know the deadline of the task.");
-            }
-            String taskDescribe = input.substring(spaceIdx + 1, byIdx - 1);
-            String deadlineString = input.substring(byIdx + 4);
-            newTask = new Deadline(taskDescribe, Parser.parseDateTime(deadlineString));
-        }
-        case "event" -> {
-            int fromIdx = input.indexOf("/from");
-            int toIdx = input.indexOf("/to");
-            if (fromIdx < 0 || toIdx < 0) {
-                throw new BaymaxException("Let me know when the event starts and ends.");
-            }
-            String taskDescribe = input.substring(spaceIdx + 1, fromIdx - 1);
-            String fromDate = input.substring(fromIdx + 6, toIdx - 1);
-            String toDate = input.substring(toIdx + 4);
-            newTask = new Event(taskDescribe, Parser.parseDateTime(fromDate), Parser.parseDateTime(toDate));
-        }
-        default -> throw new BaymaxException("What type of task is this?");
-        }
+    public void addTask(Task newTask) throws BaymaxException {
         taskList.add(newTask);
-        return newTask;
     }
 
-    public Task removeTask(String input) throws BaymaxException {
-        String[] parts = input.split(" ");
-        if (parts.length < 2) {
-            throw new BaymaxException("Do let me know which task to mark/unmark.");
-        }
-        int idx = Integer.parseInt(parts[1]) - 1;
-        if (idx < 0 || idx >= taskList.size()) {
-            throw new BaymaxException("I do not know which task you are referring to.");
-        }
-        Task theTask = taskList.get(idx);
+    public void removeTask(Task theTask) throws BaymaxException {
         taskList.remove(theTask);
-        return theTask;
     }
 
     public int size() {
