@@ -1,12 +1,12 @@
 package baymax;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import baymax.io.Storage;
 import baymax.io.Ui;
 import baymax.task.TaskList;
 import baymax.util.Parser;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * The main class for the Baymax chatbot.

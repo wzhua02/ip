@@ -1,6 +1,11 @@
 package baymax.io;
 
-import java.io.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -23,8 +28,8 @@ public class Storage {
             dataFile = new File(filePath.toString());
             if (!dataFile.exists()) {
                 File dataDir = new File(filePath.getParent().toString());
-                dataDir.mkdirs();  // Create parent directories if they don't exist
-                dataFile.createNewFile();  // Create the file
+                dataDir.mkdirs();
+                dataFile.createNewFile();
                 System.out.println("\"tasks.txt\" not found in directory. Created a new one.");
             }
         } catch (FileNotFoundException e) {
@@ -43,15 +48,15 @@ public class Storage {
     public ArrayList<String> load() {
         ArrayList<String> returnList = new ArrayList<>();
         try {
-            Scanner fileScanner = new Scanner(dataFile);  // Scanner to read the file
+            Scanner fileScanner = new Scanner(dataFile);
             while (fileScanner.hasNextLine()) {
-                String line = fileScanner.nextLine();  // Read each line
-                returnList.add(line);  // Add the line (task) to the list
+                String line = fileScanner.nextLine();
+                returnList.add(line);
             }
         } catch (IOException e) {
             System.err.println("Scanner Error: " + e.getMessage());
         }
-        return returnList;  // Return the list of tasks
+        return returnList;
     }
 
     /**
@@ -61,13 +66,13 @@ public class Storage {
      */
     public void save(ArrayList<String> saveList) {
         try {
-            PrintWriter writer = new PrintWriter(new FileWriter(dataFile));  // Writer to write to the file
+            PrintWriter writer = new PrintWriter(new FileWriter(dataFile));
             for (String task : saveList) {
-                writer.println(task);  // Write each task to the file
+                writer.println(task);
             }
-            writer.close();  // Close the writer after saving
+            writer.close();
         } catch (IOException e) {
-            System.err.println(e.getMessage());  // Print any error that occurs during saving
+            System.err.println(e.getMessage());
         }
     }
 }

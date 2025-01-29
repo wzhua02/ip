@@ -3,11 +3,11 @@
  */
 package baymax.task;
 
+import java.util.ArrayList;
+
 import baymax.exception.BaymaxException;
 import baymax.io.Storage;
 import baymax.util.Parser;
-
-import java.util.ArrayList;
 
 /**
  * Manages a list of tasks, allowing addition, removal, retrieval, and persistence.
@@ -37,12 +37,13 @@ public class TaskList {
                 switch (type) {
                 case "T" -> taskList.add(new Todo(parts[2], isDone));
                 case "D" -> taskList.add(new Deadline(parts[2], Parser.parseDateTime(parts[3]), isDone));
-                case "E" -> taskList.add(new Event(parts[2], Parser.parseDateTime(parts[3]), Parser.parseDateTime(parts[4]),
-                        isDone));
+                case "E" -> taskList.add(new Event(parts[2], Parser.parseDateTime(parts[3]),
+                        Parser.parseDateTime(parts[4]), isDone));
+                default -> throw new BaymaxException("Task type not found. ");
                 }
             }
         } catch (BaymaxException e) {
-            System.err.println("Date format Error: " + e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 

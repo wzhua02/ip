@@ -95,9 +95,9 @@ public class Parser {
      */
     public static LocalDateTime parseDateTime(String dateTimeStr) throws BaymaxException {
         String[] patterns = {
-                "yyyy-MM-dd HH:mm",     // e.g. 2025-01-27 12:30
-                "dd/MM/yyyy HH:mm",     // e.g. 27/01/2025 12:30
-                "yyyy MM dd HH:mm",     // e.g. 2025 01 27 12:30
+            "yyyy-MM-dd HH:mm", //e.g. 2025-01-27 12:30
+            "dd/MM/yyyy HH:mm", //e.g. 27/01/2025 12:30
+            "yyyy MM dd HH:mm", //e.g. 2025 01 27 12:30
         };
         for (String pattern : patterns) {
             try {

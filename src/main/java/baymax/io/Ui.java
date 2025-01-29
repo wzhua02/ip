@@ -9,9 +9,9 @@ import java.util.Scanner;
  * This class is responsible for reading user input and formatting output with indentation.
  */
 public class Ui {
-    private static final String INDENT = "    ";  // Indentation used for formatting output
-    private final Scanner scan;  // Scanner instance for reading user input
-    private final PrintStream out;  // PrintStream instance for printing output
+    private static final String INDENT = "    ";
+    private final Scanner scan;
+    private final PrintStream out;
 
     /**
      * Constructs a new Ui object with the default input and output streams (System.in, System.out).
@@ -68,11 +68,11 @@ public class Ui {
      * @param msgs the messages to print
      */
     public void reply(String... msgs) {
-        String horizontal_line = "_".repeat(50);  // Horizontal line of 50 underscores
-        System.out.println(horizontal_line);
+        String horizontalLine = "_".repeat(50);
+        System.out.println(horizontalLine);
         for (String msg : msgs) {
             System.out.println(msg);
         }
-        System.out.println(horizontal_line);
+        System.out.println(horizontalLine);
     }
 }
