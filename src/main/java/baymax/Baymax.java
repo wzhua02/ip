@@ -22,7 +22,7 @@ public class Baymax {
      * @param filePath Path to the file where tasks are stored.
      */
     public Baymax(Path filePath) {
-        Ui ui = new Ui();
+        Ui.initializeUi();
         storage = new Storage(filePath);
         tasks = new TaskList(storage.load());
     }

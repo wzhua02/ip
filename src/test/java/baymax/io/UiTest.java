@@ -1,33 +1,35 @@
 package baymax.io;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 class UiTest {
-    private Ui ui;
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     @BeforeEach
     void setUp() {
-        outputStream = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(outputStream);
-        inputStream = new ByteArrayInputStream("test input\n".getBytes());
-    }
-
-    @Test
-    void testGetInput() {
-        assertEquals("test input", Ui.getInput());
+        System.setOut(new PrintStream(outContent));
+        Ui.initializeUi();
     }
 
     @Test
     void testReply() {
-        ui.reply("Hello, world!", "This is a test.");
-        String output = outputStream.toString().trim();
-        assertTrue(output.contains("Hello, world!"));
-        assertTrue(output.contains("This is a test."));
-        assertTrue(output.contains("_") && output.indexOf("_") < output.indexOf("Hello, world!"));
+        Ui.reply("Hello", "World!");
+        String expectedOutput = "_".repeat(50) + "\n" +
+                Ui.INDENT + "Hello\n" +
+                Ui.INDENT + "World!\n" +
+                "_".repeat(50) + "\n";
+        assertEquals(expectedOutput, outContent.toString());
+    }
+
+    @Test
+    void testGetInput() {
+        String simulatedInput = "Test input\n";
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        assertEquals("Test input", Ui.getInput());
     }
 }
-

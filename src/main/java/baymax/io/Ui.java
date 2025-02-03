@@ -12,21 +12,8 @@ public class Ui {
     public static final String INDENT = "    ";
     private static final Scanner scan = new Scanner(System.in);
 
-    /**
-     * Constructs a new Ui object with the default input and output streams (System.in, System.out).
-     */
-    public Ui() {
-        this(System.in, System.out);
-    }
-
-    /**
-     * Constructs a new Ui object with the specified input and output streams.
-     *
-     * @param in the InputStream to read input from
-     * @param out the PrintStream to write output to
-     */
-    public Ui(InputStream in, PrintStream out) {
-        System.setOut(new PrintStream(out) {
+    public static void initializeUi() {
+        System.setOut(new PrintStream(System.out) {
             /**
              * Overrides the println method to add indentation before printing the message.
              *
