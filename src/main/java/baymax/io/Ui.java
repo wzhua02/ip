@@ -1,6 +1,5 @@
 package baymax.io;
 
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
@@ -12,6 +11,11 @@ public class Ui {
     public static final String INDENT = "    ";
     private static final Scanner scan = new Scanner(System.in);
 
+    /**
+     * Initializes the UI by overriding the default system output behavior.
+     * This method modifies {@code System.out} to prepend an indentation
+     * before every printed line.
+     */
     public static void initializeUi() {
         System.setOut(new PrintStream(System.out) {
             /**

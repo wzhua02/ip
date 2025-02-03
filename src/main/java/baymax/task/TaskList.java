@@ -48,13 +48,38 @@ public class TaskList {
         }
     }
 
+    /**
+     * Returns a formatted string of all tasks in the task list.
+     *
+     * @return A string representation of the task list, or a message if the list is empty.
+     */
     public String listTasks() {
         if (taskList.isEmpty()) {
             return "No tasks found!";
         }
         return "Tasks:\n" + IntStream.range(0, taskList.size())
-                .mapToObj(i -> Ui.INDENT + (i + 1) + ". " + taskList.get(i))
-                .collect(Collectors.joining("\n"));
+                .mapToObj(i -> (i + 1) + ". " + taskList.get(i))
+                .collect(Collectors.joining("\n" + Ui.INDENT));
+    }
+
+    /**
+     * Returns a formatted string of tasks that contain the specified search term.
+     *
+     * @param findTask The keyword to search for within task descriptions.
+     * @return A string representation of tasks matching the search term, or a message if no tasks are found.
+     * @throws BaymaxException If the search term is empty.
+     */
+    public String listTasks(String findTask) throws BaymaxException {
+        if (findTask.isEmpty()) {
+            throw new BaymaxException("Let me know what task you want to find.");
+        }
+        if (taskList.isEmpty()) {
+            return "No tasks found!";
+        }
+        return IntStream.range(0, taskList.size())
+                .filter(i -> taskList.get(i).toString().toLowerCase().contains(findTask.toLowerCase()))
+                .mapToObj(i -> (i + 1) + ". " + taskList.get(i))
+                .collect(Collectors.joining("\n" + Ui.INDENT));
     }
 
     /**

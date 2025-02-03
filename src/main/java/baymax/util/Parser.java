@@ -3,7 +3,6 @@ package baymax.util;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 
 import baymax.exception.BaymaxException;
 import baymax.io.Storage;
@@ -138,13 +137,7 @@ public class Parser {
                 if (args.length < 2) {
                     throw new BaymaxException("Let me know what task you would like to find.");
                 }
-                ArrayList<Task> foundTasks = tasks.findTask(args[1]);
-                ArrayList<String> replyMsgs = new ArrayList<>();
-                replyMsgs.add("These are the tasks you are looking for: ");
-                for (Task task : foundTasks) {
-                    replyMsgs.add(tasks.getTaskIdx(task) + ". " + task.toString());
-                }
-                Ui.reply(replyMsgs.toArray(new String[0]));
+                Ui.reply("These are the tasks you are looking for: ", tasks.listTasks(args[1]));
             }
             default -> {
                 throw new BaymaxException("I cannot comprehend what you are saying.");
@@ -153,15 +146,6 @@ public class Parser {
         } catch (BaymaxException e) {
             Ui.reply(e.getMessage());
         }
-    }
-
-    /**
-     * Parse a command string. Yet to be implemented.
-     *
-     * @param input The user input string.
-     */
-    public static void parseCommand(String input) {
-        String cmd = input.split(" ")[0];
     }
 
     /**
