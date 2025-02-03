@@ -15,7 +15,7 @@ import java.util.Scanner;
  * It provides methods to load data from the file and save data to the file.
  */
 public class Storage {
-    private File dataFile;  // The file where tasks are stored
+    private File dataFile; // The file where tasks are stored
 
     /**
      * Constructs a Storage object with the specified file path.

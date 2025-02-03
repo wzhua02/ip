@@ -68,9 +68,9 @@ public class Event extends Task {
     @Override
     public String toString() {
         String typeStr = "[" + this.type + "]";
-        String markStr = "[" + super.getStatusIcon() + "] ";
-        String fromToStr = " (from: " + this.getFromDate() + ") (to: " + this.getToDate() + ")";
-        return typeStr + markStr + super.toString() + fromToStr;
+        String markStr = "[" + getStatusIcon() + "] ";
+        String fromToStr = " (from: " + getFromDate() + ") (to: " + getToDate() + ")";
+        return typeStr + markStr + getDescription() + fromToStr;
     }
 
     /**
@@ -80,7 +80,7 @@ public class Event extends Task {
      */
     @Override
     public String toSaveFormat() {
-        return "E | " + (isDone ? "1" : "0") + " | " + super.toString()
+        return "E | " + (isDone ? "1" : "0") + " | " + getDescription()
                 + " | " + this.fromDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
                 + " | " + this.toDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }

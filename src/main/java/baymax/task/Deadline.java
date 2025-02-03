@@ -54,8 +54,8 @@ public class Deadline extends Task {
     @Override
     public String toString() {
         String typeStr = "[" + this.type + "]";
-        String markStr = "[" + super.getStatusIcon() + "] ";
-        return typeStr + markStr + super.toString() + " (by: " + getDeadlineDate() + ")";
+        String markStr = "[" + getStatusIcon() + "] ";
+        return typeStr + markStr + getDescription() + " (by: " + getDeadlineDate() + ")";
     }
 
     /**
@@ -65,7 +65,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toSaveFormat() {
-        return "D | " + (isDone ? "1" : "0") + " | " + super.toString() + " | "
+        return "D | " + (isDone ? "1" : "0") + " | " + getDescription() + " | "
                 + this.deadlineDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 }

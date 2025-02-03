@@ -9,9 +9,8 @@ import java.util.Scanner;
  * This class is responsible for reading user input and formatting output with indentation.
  */
 public class Ui {
-    private static final String INDENT = "    ";
-    private final Scanner scan;
-    private final PrintStream out;
+    public static final String INDENT = "    ";
+    private static final Scanner scan = new Scanner(System.in);
 
     /**
      * Constructs a new Ui object with the default input and output streams (System.in, System.out).
@@ -27,7 +26,6 @@ public class Ui {
      * @param out the PrintStream to write output to
      */
     public Ui(InputStream in, PrintStream out) {
-        scan = new Scanner(in);
         System.setOut(new PrintStream(out) {
             /**
              * Overrides the println method to add indentation before printing the message.
@@ -49,7 +47,6 @@ public class Ui {
                 super.println(INDENT + x); // Add indentation for Object toString()
             }
         });
-        this.out = out;
     }
 
     /**
@@ -57,7 +54,7 @@ public class Ui {
      *
      * @return the input provided by the user
      */
-    public String getInput() {
+    public static String getInput() {
         return scan.nextLine();
     }
 
@@ -67,7 +64,7 @@ public class Ui {
      *
      * @param msgs the messages to print
      */
-    public void reply(String... msgs) {
+    public static void reply(String... msgs) {
         String horizontalLine = "_".repeat(50);
         System.out.println(horizontalLine);
         for (String msg : msgs) {

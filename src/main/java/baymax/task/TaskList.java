@@ -1,9 +1,12 @@
 package baymax.task;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import baymax.exception.BaymaxException;
 import baymax.io.Storage;
+import baymax.io.Ui;
 import baymax.util.Parser;
 
 /**
@@ -45,19 +48,13 @@ public class TaskList {
         }
     }
 
-    /**
-     * Returns a list of task descriptions formatted as strings.
-     * Each task is numbered sequentially.
-     *
-     * @return A list of task descriptions.
-     */
-    public ArrayList<String> toStringList() {
-        ArrayList<String> returnList = new ArrayList<>();
-        for (int i = 0; i < taskList.size(); i++) {
-            Task task = taskList.get(i);
-            returnList.add((i + 1) + ". " + task);
+    public String listTasks() {
+        if (taskList.isEmpty()) {
+            return "No tasks found!";
         }
-        return returnList;
+        return "Tasks:\n" + IntStream.range(0, taskList.size())
+                .mapToObj(i -> Ui.INDENT + (i + 1) + ". " + taskList.get(i))
+                .collect(Collectors.joining("\n"));
     }
 
     /**

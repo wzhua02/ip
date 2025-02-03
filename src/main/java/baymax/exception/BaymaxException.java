@@ -3,7 +3,7 @@ package baymax.exception;
 /**
  * Represents an exception that occurs when there is an error in the baymax package.
  */
-public class BaymaxException extends Exception{
+public class BaymaxException extends Exception {
     /**
      * Constructs a new BaymaxException with the specified message.
      *

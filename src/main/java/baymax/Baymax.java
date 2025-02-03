@@ -16,14 +16,13 @@ public class Baymax {
     private static final Path FILE_PATH = Paths.get("data", "tasks.txt");
     private final Storage storage;
     private final TaskList tasks;
-    private final Ui ui;
 
     /**
      * Constructs a Baymax instance.
      * @param filePath Path to the file where tasks are stored.
      */
     public Baymax(Path filePath) {
-        ui = new Ui();
+        Ui ui = new Ui();
         storage = new Storage(filePath);
         tasks = new TaskList(storage.load());
     }
@@ -32,13 +31,13 @@ public class Baymax {
      * Runs the chatbot, handling user input until "bye" is entered.
      */
     public void run() {
-        ui.reply("Hello! I'm Baymax", "How can I assist you?");
-        String input = ui.getInput();
+        Ui.reply("Hello! I'm Baymax", "How can I assist you?");
+        String input = Ui.getInput();
         while (!input.startsWith("bye")) {
-            Parser.parse(input, ui, tasks, storage);
-            input = ui.getInput();
+            Parser.parse(input, tasks, storage);
+            input = Ui.getInput();
         }
-        ui.reply("Goodbye! *slowly deflates*");
+        Ui.reply("Goodbye! *slowly deflates*");
     }
 
     /**

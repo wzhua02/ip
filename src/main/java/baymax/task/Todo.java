@@ -41,8 +41,8 @@ public class Todo extends Task {
     @Override
     public String toString() {
         String typeStr = "[" + this.type + "]";
-        String markStr = "[" + super.getStatusIcon() + "] ";
-        return typeStr + markStr + super.toString();
+        String markStr = "[" + getStatusIcon() + "] ";
+        return typeStr + markStr + getDescription();
     }
 
     /**
@@ -52,6 +52,6 @@ public class Todo extends Task {
      */
     @Override
     public String toSaveFormat() {
-        return "T | " + (isDone ? "1" : "0") + " | " + super.toString();
+        return "T | " + (isDone ? "1" : "0") + " | " + getDescription();
     }
 }

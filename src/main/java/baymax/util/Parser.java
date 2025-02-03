@@ -24,19 +24,17 @@ public class Parser {
      * Parses the user input and executes the appropriate command.
      *
      * @param input   The user input string.
-     * @param ui      The UI handler for displaying messages.
      * @param tasks   The TaskList containing user tasks.
      * @param storage The Storage handler for saving and loading tasks.
      */
-    public static void parse(String input, Ui ui, TaskList tasks, Storage storage) {
+    public static void parse(String input, TaskList tasks, Storage storage) {
         String[] args = input.split(" ");
         String cmd = args[0];
         try {
             switch (cmd) {
             case "list" -> {
-                ArrayList<String> replyList = tasks.toStringList();
-                replyList.add(0, "Here are your tasks:");
-                ui.reply(replyList.toArray(new String[0]));
+                String replyLine = tasks.listTasks();
+                Ui.reply("Here are your tasks:", replyLine);
             }
             case "mark" -> {
                 if (args.length < 2) {
@@ -50,7 +48,7 @@ public class Parser {
                 theTask.marker(true);
                 tasks.save(storage);
                 String markMsg = "Okie dokie this is marked as done:";
-                ui.reply(markMsg, "   " + theTask);
+                Ui.reply(markMsg, "   " + theTask);
             }
             case "unmark" -> {
                 if (args.length < 2) {
@@ -64,7 +62,7 @@ public class Parser {
                 theTask.marker(false);
                 tasks.save(storage);
                 String markMsg = "Okie this is marked as not done yet:";
-                ui.reply(markMsg, "   " + theTask);
+                Ui.reply(markMsg, "   " + theTask);
             }
             case "todo" -> {
                 int spaceIdx = input.indexOf(" ");
@@ -75,7 +73,7 @@ public class Parser {
                 Task newTask = new Todo(taskDescribe);
                 tasks.addTask(newTask);
                 tasks.save(storage);
-                ui.reply("Got it. Added this task:",
+                Ui.reply("Got it. Added this task:",
                         newTask.toString(),
                         "Now you have " + tasks.size() + " tasks in the list.");
             }
@@ -93,7 +91,7 @@ public class Parser {
                 Task newTask = new Deadline(taskDescribe, Parser.parseDateTime(deadlineString));
                 tasks.addTask(newTask);
                 tasks.save(storage);
-                ui.reply("Got it. Added this task:",
+                Ui.reply("Got it. Added this task:",
                         newTask.toString(),
                         "Now you have " + tasks.size() + " tasks in the list.");
             }
@@ -113,7 +111,7 @@ public class Parser {
                 Task newTask = new Event(taskDescribe, Parser.parseDateTime(fromDate), Parser.parseDateTime(toDate));
                 tasks.addTask(newTask);
                 tasks.save(storage);
-                ui.reply("Got it. Added this task:",
+                Ui.reply("Got it. Added this task:",
                         newTask.toString(),
                         "Now you have " + tasks.size() + " tasks in the list.");
             }
@@ -129,7 +127,7 @@ public class Parser {
                 Task theTask = tasks.getTask(idx);
                 tasks.removeTask(theTask);
                 tasks.save(storage);
-                ui.reply("Task removed!",
+                Ui.reply("Task removed!",
                         "   " + theTask,
                         "Now you have " + tasks.size() + " tasks in the list.");
             }
@@ -146,14 +144,14 @@ public class Parser {
                 for (Task task : foundTasks) {
                     replyMsgs.add(tasks.getTaskIdx(task) + ". " + task.toString());
                 }
-                ui.reply(replyMsgs.toArray(new String[0]));
+                Ui.reply(replyMsgs.toArray(new String[0]));
             }
             default -> {
                 throw new BaymaxException("I cannot comprehend what you are saying.");
             }
             }
         } catch (BaymaxException e) {
-            ui.reply(e.getMessage());
+            Ui.reply(e.getMessage());
         }
     }
 
