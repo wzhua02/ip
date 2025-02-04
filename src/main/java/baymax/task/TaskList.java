@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import baymax.exception.BaymaxException;
-import baymax.io.Storage;
+import baymax.util.Storage;
 import baymax.util.Parser;
 
 /**

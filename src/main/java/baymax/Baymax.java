@@ -1,6 +1,6 @@
 package baymax;
 
-import baymax.io.Storage;
+import baymax.util.Storage;
 import baymax.task.TaskList;
 import baymax.util.Parser;
 
