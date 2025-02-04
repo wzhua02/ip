@@ -24,6 +24,7 @@ public class Parser {
      * @param input   The user input string.
      * @param tasks   The TaskList containing user tasks.
      * @param storage The Storage handler for saving and loading tasks.
+     * @return A String that Baymax will reply to the user based on the input.
      */
     public static String parse(String input, TaskList tasks, Storage storage) {
         String[] args = input.split(" ");

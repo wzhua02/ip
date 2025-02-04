@@ -20,6 +20,12 @@ public class Baymax {
         tasks = new TaskList(storage.load());
     }
 
+    /**
+     * Processes the user input and returns the corresponding response.
+     *
+     * @param input The user input as a string.
+     * @return The response generated after parsing the input.
+     */
     public String getResponse(String input) {
         return Parser.parse(input, tasks, storage);
     }
