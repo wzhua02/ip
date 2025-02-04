@@ -1,4 +1,4 @@
-package baymax.io;
+package baymax.util;
 
 
 import java.io.File;
@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,19 +16,19 @@ import java.util.Scanner;
  * It provides methods to load data from the file and save data to the file.
  */
 public class Storage {
+    private static final Path FILE_PATH = Paths.get("data", "tasks.txt");
     private File dataFile; // The file where tasks are stored
 
     /**
      * Constructs a Storage object with the specified file path.
      * If the file does not exist, it creates the file and its parent directories.
      *
-     * @param filePath the path to the file where tasks will be stored
      */
-    public Storage(Path filePath) {
+    public Storage() {
         try {
-            dataFile = new File(filePath.toString());
+            dataFile = new File(FILE_PATH.toString());
             if (!dataFile.exists()) {
-                File dataDir = new File(filePath.getParent().toString());
+                File dataDir = new File(FILE_PATH.getParent().toString());
                 dataDir.mkdirs();
                 dataFile.createNewFile();
                 System.out.println("\"tasks.txt\" not found in directory. Created a new one.");

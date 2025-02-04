@@ -5,9 +5,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import baymax.exception.BaymaxException;
-import baymax.io.Storage;
-import baymax.io.Ui;
 import baymax.util.Parser;
+import baymax.util.Storage;
 
 /**
  * Manages a list of tasks, allowing addition, removal, retrieval, and persistence.
@@ -59,7 +58,7 @@ public class TaskList {
         }
         return "Tasks:\n" + IntStream.range(0, taskList.size())
                 .mapToObj(i -> (i + 1) + ". " + taskList.get(i))
-                .collect(Collectors.joining("\n" + Ui.INDENT));
+                .collect(Collectors.joining("\n"));
     }
 
     /**
@@ -79,7 +78,7 @@ public class TaskList {
         return IntStream.range(0, taskList.size())
                 .filter(i -> taskList.get(i).toString().toLowerCase().contains(findTask.toLowerCase()))
                 .mapToObj(i -> (i + 1) + ". " + taskList.get(i))
-                .collect(Collectors.joining("\n" + Ui.INDENT));
+                .collect(Collectors.joining("\n"));
     }
 
     /**

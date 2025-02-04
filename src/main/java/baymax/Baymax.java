@@ -1,50 +1,33 @@
 package baymax;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import baymax.io.Storage;
-import baymax.io.Ui;
 import baymax.task.TaskList;
 import baymax.util.Parser;
+import baymax.util.Storage;
 
 /**
  * The main class for the Baymax chatbot.
  * Handles user interactions and task management.
  */
 public class Baymax {
-    private static final Path FILE_PATH = Paths.get("data", "tasks.txt");
     private final Storage storage;
     private final TaskList tasks;
 
     /**
      * Constructs a Baymax instance.
-     * @param filePath Path to the file where tasks are stored.
      */
-    public Baymax(Path filePath) {
-        Ui.initializeUi();
-        storage = new Storage(filePath);
+    public Baymax() {
+        storage = new Storage();
         tasks = new TaskList(storage.load());
     }
 
     /**
-     * Runs the chatbot, handling user input until "bye" is entered.
+     * Processes the user input and returns the corresponding response.
+     *
+     * @param input The user input as a string.
+     * @return A String array, where the first value is the command type the second value is the response generated
+     *      after parsing the input.
      */
-    public void run() {
-        Ui.reply("Hello! I'm Baymax", "How can I assist you?");
-        String input = Ui.getInput();
-        while (!input.startsWith("bye")) {
-            Parser.parse(input, tasks, storage);
-            input = Ui.getInput();
-        }
-        Ui.reply("Goodbye! *slowly deflates*");
-    }
-
-    /**
-     * The main method to start the chatbot.
-     * @param args Command-line arguments (not used).
-     */
-    public static void main(String[] args) {
-        new Baymax(FILE_PATH).run();
+    public String[] getResponse(String input) {
+        return Parser.parse(input, tasks, storage);
     }
 }

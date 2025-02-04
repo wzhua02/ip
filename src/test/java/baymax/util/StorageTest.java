@@ -1,15 +1,17 @@
-package baymax.io;
+package baymax.util;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
 
 class StorageTest {
     private Storage storage;
@@ -18,7 +20,7 @@ class StorageTest {
     @BeforeEach
     void setUp(@TempDir Path tempDir) {
         testFile = tempDir.resolve("tasks.txt");
-        storage = new Storage(testFile);
+        storage = new Storage();
     }
 
     @Test
