@@ -16,7 +16,6 @@ import baymax.task.Todo;
  */
 public class Parser {
     private static final String INDENT = "    ";
-
     /**
      * Parses the user input and executes the appropriate command.
      *
@@ -25,7 +24,7 @@ public class Parser {
      * @param storage The Storage handler for saving and loading tasks.
      * @return A String that Baymax will reply to the user based on the input.
      */
-    public static String parse(String input, TaskList tasks, Storage storage) {
+    public static String[] parse(String input, TaskList tasks, Storage storage) {
         String[] args = input.split(" ");
         String cmd = args[0].toLowerCase();
         String returnString;
@@ -143,9 +142,8 @@ public class Parser {
         } catch (BaymaxException e) {
             returnString = e.getMessage();
         }
-        return returnString;
+        return new String[]{cmd, returnString};
     }
-
     /**
      * Parses a date-time string into a LocalDateTime object.
      *

@@ -47,10 +47,12 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() throws InterruptedException {
         String input = userInput.getText();
-        String response = baymax.getResponse(input);
+        String[] responseArray = baymax.getResponse(input);
+        String commandType = responseArray[0];
+        String response = responseArray[1];
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getBaymaxDialog(response, baymaxImage)
+                DialogBox.getBaymaxDialog(response, baymaxImage, commandType)
         );
         userInput.clear();
         // If the user inputs "bye", close the application

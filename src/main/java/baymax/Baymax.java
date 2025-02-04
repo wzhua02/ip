@@ -1,8 +1,8 @@
 package baymax;
 
-import baymax.util.Storage;
 import baymax.task.TaskList;
 import baymax.util.Parser;
+import baymax.util.Storage;
 
 /**
  * The main class for the Baymax chatbot.
@@ -24,9 +24,10 @@ public class Baymax {
      * Processes the user input and returns the corresponding response.
      *
      * @param input The user input as a string.
-     * @return The response generated after parsing the input.
+     * @return A String array, where the first value is the command type the second value is the response generated
+     *      after parsing the input.
      */
-    public String getResponse(String input) {
+    public String[] getResponse(String input) {
         return Parser.parse(input, tasks, storage);
     }
 }

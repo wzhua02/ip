@@ -52,10 +52,26 @@ public class DialogBox extends HBox {
     public static DialogBox getUserDialog(String text, Image img) {
         return new DialogBox(text, img);
     }
-
-    public static DialogBox getBaymaxDialog(String text, Image img) {
+    private void changeDialogStyle(String commandType) {
+        switch(commandType) {
+        case "todo", "deadline", "event" -> {
+            dialog.getStyleClass().add("add-label");
+        }
+        case "mark", "unmark" -> {
+            dialog.getStyleClass().add("marked-label");
+        }
+        case "delete" -> {
+            dialog.getStyleClass().add("delete-label");
+        }
+        default -> {
+            // Do nothing
+        }
+        }
+    }
+    public static DialogBox getBaymaxDialog(String text, Image img, String commandType) {
         var db = new DialogBox(text, img);
         db.flip();
+        db.changeDialogStyle(commandType);
         return db;
     }
 
