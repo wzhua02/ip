@@ -18,7 +18,7 @@ class StorageTest {
     @BeforeEach
     void setUp(@TempDir Path tempDir) {
         testFile = tempDir.resolve("tasks.txt");
-        storage = new Storage(testFile);
+        storage = new Storage();
     }
 
     @Test
