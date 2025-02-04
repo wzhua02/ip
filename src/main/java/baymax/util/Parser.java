@@ -27,7 +27,7 @@ public class Parser {
      */
     public static String parse(String input, TaskList tasks, Storage storage) {
         String[] args = input.split(" ");
-        String cmd = args[0];
+        String cmd = args[0].toLowerCase();
         String returnString;
         try {
             switch (cmd) {
