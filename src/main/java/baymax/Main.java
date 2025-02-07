@@ -25,7 +25,6 @@ public class Main extends Application {
             stage.setScene(scene);
             stage.setMinHeight(220);
             stage.setMinWidth(417);
-            fxmlLoader.<MainWindow>getController().setBaymax(baymax); // inject the Baymax instance
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

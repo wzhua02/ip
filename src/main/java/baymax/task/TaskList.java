@@ -66,12 +66,8 @@ public class TaskList {
      *
      * @param findTask The keyword to search for within task descriptions.
      * @return A string representation of tasks matching the search term, or a message if no tasks are found.
-     * @throws BaymaxException If the search term is empty.
      */
-    public String listTasks(String findTask) throws BaymaxException {
-        if (findTask.isEmpty()) {
-            throw new BaymaxException("Let me know what task you want to find.");
-        }
+    public String listTasks(String findTask) {
         if (taskList.isEmpty()) {
             return "No tasks found!";
         }
@@ -105,9 +101,8 @@ public class TaskList {
      * Adds a task to the list.
      *
      * @param newTask The task to add to the list.
-     * @throws BaymaxException If there is an issue with adding the task.
      */
-    public void addTask(Task newTask) throws BaymaxException {
+    public void addTask(Task newTask) {
         taskList.add(newTask);
     }
 
@@ -115,33 +110,9 @@ public class TaskList {
      * Removes a task from the list.
      *
      * @param theTask The task to remove from the list.
-     * @throws BaymaxException If the task is not found.
      */
-    public void removeTask(Task theTask) throws BaymaxException {
+    public void removeTask(Task theTask) {
         taskList.remove(theTask);
-    }
-
-    /**
-     * Finds tasks that contain the specified substring in their descriptions.
-     *
-     * @param subString The substring to search for.
-     * @return A list of tasks that contain the given substring.
-     * @throws BaymaxException If no tasks are found containing the substring.
-     */
-    public ArrayList<Task> findTask(String subString) throws BaymaxException {
-        ArrayList<Task> foundTasks = new ArrayList<>();
-
-        for (Task task : taskList) {
-            if (task.getDescription().toLowerCase().contains(subString)) {
-                foundTasks.add(task);
-            }
-        }
-
-        if (foundTasks.isEmpty()) {
-            throw new BaymaxException("No tasks found containing: " + subString);
-        } else {
-            return foundTasks;
-        }
     }
 
     /**
