@@ -47,10 +47,18 @@ public class Parser {
             return new ListCommand();
         }
         case "mark" -> {
-            return new MarkCommand(Integer.parseInt(args[1]) - 1);
+            if (args.length < 2) {
+                throw new BaymaxException("Do let me know which task to mark/unmark.");
+            }
+            int idx = Integer.parseInt(args[1]) - 1;
+            return new MarkCommand(idx);
         }
         case "unmark" -> {
-            return new UnmarkCommand(Integer.parseInt(args[1]) - 1);
+            if (args.length < 2) {
+                throw new BaymaxException("Do let me know which task to mark/unmark.");
+            }
+            int idx = Integer.parseInt(args[1]) - 1;
+            return new UnmarkCommand(idx);
         }
         case "todo" -> {
             int spaceIdx = input.indexOf(" ");
