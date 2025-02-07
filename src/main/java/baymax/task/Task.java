@@ -43,7 +43,7 @@ public abstract class Task {
      */
     @Override
     public String toString() {
-        return description;
+        return "[" + getStatusIcon() + "] " + this.description;
     }
 
     /**
@@ -52,7 +52,7 @@ public abstract class Task {
      * @return The description of the task.
      */
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     /**
@@ -62,5 +62,7 @@ public abstract class Task {
      *
      * @return A formatted string representing the task for storage.
      */
-    public abstract String toSaveFormat();
+    public String toSaveFormat() {
+        return (isDone ? "1" : "0") + " | " + this.description;
+    }
 }

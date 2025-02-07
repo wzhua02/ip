@@ -68,9 +68,8 @@ public class Event extends Task {
     @Override
     public String toString() {
         String typeStr = "[" + this.type + "]";
-        String markStr = "[" + getStatusIcon() + "] ";
         String fromToStr = " (from: " + getFromDate() + ") (to: " + getToDate() + ")";
-        return typeStr + markStr + getDescription() + fromToStr;
+        return typeStr + super.toString() + fromToStr;
     }
 
     /**
