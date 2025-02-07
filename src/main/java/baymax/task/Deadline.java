@@ -54,8 +54,7 @@ public class Deadline extends Task {
     @Override
     public String toString() {
         String typeStr = "[" + this.type + "]";
-        String markStr = "[" + getStatusIcon() + "] ";
-        return typeStr + markStr + getDescription() + " (by: " + getDeadlineDate() + ")";
+        return typeStr + super.toString() + " (by: " + getDeadlineDate() + ")";
     }
 
     /**

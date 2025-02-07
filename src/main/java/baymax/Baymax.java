@@ -1,8 +1,15 @@
 package baymax;
 
+import baymax.command.Command;
+import baymax.command.ErrorCommand;
+import baymax.exception.BaymaxException;
+import baymax.gui.GuiController;
 import baymax.task.TaskList;
 import baymax.util.Parser;
 import baymax.util.Storage;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import javafx.util.Duration;
 
 /**
  * The main class for the Baymax chatbot.
@@ -11,11 +18,14 @@ import baymax.util.Storage;
 public class Baymax {
     private final Storage storage;
     private final TaskList tasks;
+    private GuiController gui;
 
     /**
      * Constructs a Baymax instance.
      */
     public Baymax() {
+        gui = GuiController.getInstance();
+        gui.setBaymax(this);
         storage = new Storage();
         tasks = new TaskList(storage.load());
     }
@@ -24,10 +34,19 @@ public class Baymax {
      * Processes the user input and returns the corresponding response.
      *
      * @param input The user input as a string.
-     * @return A String array, where the first value is the command type the second value is the response generated
-     *      after parsing the input.
      */
-    public String[] getResponse(String input) {
-        return Parser.parse(input, tasks, storage);
+    public void getResponse(String input) {
+        try {
+            Command command = Parser.parse(input);
+            command.execute(gui, storage, tasks);
+            if (command.isBye()) {
+                PauseTransition delay = new PauseTransition(Duration.seconds(3));
+                delay.setOnFinished(event -> Platform.exit());
+                delay.play();
+            }
+        } catch (BaymaxException e) {
+            ErrorCommand errorCommand = new ErrorCommand(e.getMessage());
+            errorCommand.execute(gui, storage, tasks);
+        }
     }
 }

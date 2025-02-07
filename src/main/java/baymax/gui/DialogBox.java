@@ -24,6 +24,11 @@ public class DialogBox extends HBox {
     @FXML
     private ImageView displayPicture;
 
+    /**
+     * Constructor for a DialogBox object.
+     * @param text Text to display within the dialog box
+     * @param img The image of the author of the dialog box
+     */
     private DialogBox(String text, Image img) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
@@ -49,9 +54,22 @@ public class DialogBox extends HBox {
         dialog.getStyleClass().add("reply-label");
     }
 
+    /**
+     * Creates a user dialog box.
+     *
+     * @param text The text for the user's dialog.
+     * @param img The image representing the user.
+     * @return A {@code DialogBox} representing the user's message.
+     */
     public static DialogBox getUserDialog(String text, Image img) {
         return new DialogBox(text, img);
     }
+
+    /**
+     * Changes the style of the dialog box based on the command type.
+     *
+     * @param commandType The type of command executed.
+     */
     private void changeDialogStyle(String commandType) {
         switch(commandType) {
         case "todo", "deadline", "event" -> {
@@ -68,10 +86,19 @@ public class DialogBox extends HBox {
         }
         }
     }
-    public static DialogBox getBaymaxDialog(String text, Image img, String commandType) {
+
+    /**
+     * Creates a dialog box for Baymax with the appropriate styling.
+     *
+     * @param text The text for Baymax's dialog.
+     * @param img The image representing Baymax.
+     * @param dialogType The type of response.
+     * @return A {@code DialogBox} representing Baymax's message.
+     */
+    public static DialogBox getBaymaxDialog(String text, Image img, String dialogType) {
         var db = new DialogBox(text, img);
         db.flip();
-        db.changeDialogStyle(commandType);
+        db.changeDialogStyle(dialogType);
         return db;
     }
 

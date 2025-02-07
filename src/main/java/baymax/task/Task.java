@@ -28,12 +28,17 @@ public abstract class Task {
     }
 
     /**
-     * Marks or unmarks the task as completed.
-     *
-     * @param mark {@code true} to mark as done, {@code false} to unmark.
+     * Marks the task as completed.
      */
-    public void marker(boolean mark) {
-        this.isDone = mark;
+    public void markTask() {
+        this.isDone = true;
+    }
+
+    /**
+     * Marks the task as not completed.
+     */
+    public void unmarkTask() {
+        this.isDone = false;
     }
 
     /**
@@ -43,7 +48,7 @@ public abstract class Task {
      */
     @Override
     public String toString() {
-        return description;
+        return "[" + getStatusIcon() + "] " + this.description;
     }
 
     /**
@@ -52,7 +57,7 @@ public abstract class Task {
      * @return The description of the task.
      */
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     /**
@@ -62,5 +67,7 @@ public abstract class Task {
      *
      * @return A formatted string representing the task for storage.
      */
-    public abstract String toSaveFormat();
+    public String toSaveFormat() {
+        return (isDone ? "1" : "0") + " | " + this.description;
+    }
 }

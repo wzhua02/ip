@@ -2,7 +2,6 @@ package baymax;
 
 import java.io.IOException;
 
-import baymax.gui.MainWindow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,9 +12,6 @@ import javafx.stage.Stage;
  * A GUI for Baymax using FXML.
  */
 public class Main extends Application {
-
-    private Baymax baymax = new Baymax();
-
     @Override
     public void start(Stage stage) {
         try {
@@ -25,7 +21,6 @@ public class Main extends Application {
             stage.setScene(scene);
             stage.setMinHeight(220);
             stage.setMinWidth(417);
-            fxmlLoader.<MainWindow>getController().setBaymax(baymax); // inject the Baymax instance
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
