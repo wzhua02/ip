@@ -25,6 +25,12 @@ import baymax.task.Todo;
  */
 public class Parser {
     private static final String INDENT = "    ";
+
+    private static final String[] patterns = {
+        "yyyy-MM-dd HH:mm", //e.g. 2025-01-27 12:30
+        "dd/MM/yyyy HH:mm", //e.g. 27/01/2025 12:30
+        "yyyy MM dd HH:mm", //e.g. 2025 01 27 12:30
+    };
     /**
      * Parses the user input and returns the appropriate {@code Command}.
      *
@@ -111,11 +117,6 @@ public class Parser {
      * @throws BaymaxException If the date-time string does not match any valid format.
      */
     public static LocalDateTime parseDateTime(String dateTimeStr) throws BaymaxException {
-        String[] patterns = {
-            "yyyy-MM-dd HH:mm", //e.g. 2025-01-27 12:30
-            "dd/MM/yyyy HH:mm", //e.g. 27/01/2025 12:30
-            "yyyy MM dd HH:mm", //e.g. 2025 01 27 12:30
-        };
         for (String pattern : patterns) {
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
