@@ -6,6 +6,7 @@ import baymax.task.TaskList;
 import baymax.util.Storage;
 
 public class UnmarkCommand extends Command {
+    public static final String COMMAND_ID = "unmark";
     private int targetIndex;
 
     /**
@@ -24,6 +25,6 @@ public class UnmarkCommand extends Command {
         tasks.save(storage);
         guiController.addUserDialog();
         String reply = "Okie this is marked as not done yet:\n" + theTask;
-        guiController.addBaymaxDialog(reply);
+        guiController.addBaymaxDialog(reply, COMMAND_ID);
     }
 }

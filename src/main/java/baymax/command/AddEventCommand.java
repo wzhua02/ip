@@ -6,6 +6,7 @@ import baymax.task.TaskList;
 import baymax.util.Storage;
 
 public class AddEventCommand extends Command {
+    public static final String COMMAND_ID = "event";
     private Event newEvent;
 
     /**
@@ -24,6 +25,6 @@ public class AddEventCommand extends Command {
         guiController.addUserDialog();
         String reply = "Got it. Added this task:\n" + newEvent + "\nNow you have " + tasks.size()
                 + " tasks in the list.";
-        guiController.addBaymaxDialog(reply);
+        guiController.addBaymaxDialog(reply, COMMAND_ID);
     }
 }

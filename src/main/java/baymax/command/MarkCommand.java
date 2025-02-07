@@ -6,6 +6,7 @@ import baymax.task.TaskList;
 import baymax.util.Storage;
 
 public class MarkCommand extends Command {
+    public static final String COMMAND_ID = "mark";
     private int targetIndex;
 
     /**
@@ -24,6 +25,6 @@ public class MarkCommand extends Command {
         tasks.save(storage);
         guiController.addUserDialog();
         String reply = "Okie dokie this is marked as done:\n" + theTask;
-        guiController.addBaymaxDialog(reply);
+        guiController.addBaymaxDialog(reply, COMMAND_ID);
     }
 }

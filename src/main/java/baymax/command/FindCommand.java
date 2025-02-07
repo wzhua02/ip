@@ -5,6 +5,7 @@ import baymax.task.TaskList;
 import baymax.util.Storage;
 
 public class FindCommand extends Command {
+    public static final String COMMAND_ID = "find";
     private String findTask;
 
     /**
@@ -20,7 +21,7 @@ public class FindCommand extends Command {
     public void execute(GuiController guiController, Storage storage, TaskList tasks) {
         guiController.addUserDialog();
         String reply = "These are the tasks you are looking for:\n" + tasks.listTasks(findTask);
-        guiController.addBaymaxDialog(reply);
+        guiController.addBaymaxDialog(reply, COMMAND_ID);
 
     }
 }

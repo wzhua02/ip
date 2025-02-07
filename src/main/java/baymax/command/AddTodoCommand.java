@@ -7,6 +7,7 @@ import baymax.task.Todo;
 import baymax.util.Storage;
 
 public class AddTodoCommand extends Command {
+    public static final String COMMAND_ID = "todo";
     private Todo newTodo;
 
     /**
@@ -25,6 +26,6 @@ public class AddTodoCommand extends Command {
         guiController.addUserDialog();
         String reply = "Got it. Added this task:\n" + newTodo + "\nNow you have " + tasks.size()
                 + " tasks in the list.";
-        guiController.addBaymaxDialog(reply);
+        guiController.addBaymaxDialog(reply, COMMAND_ID);
     }
 }

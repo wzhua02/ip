@@ -70,9 +70,9 @@ public class GuiController {
      *
      * @param response response from processed command
      */
-    public void addBaymaxDialog(String response) {
+    public void addBaymaxDialog(String response, String dialogType) {
         dialogContainer.getChildren().addAll(
-                DialogBox.getBaymaxDialog(response, baymaxImage)
+                DialogBox.getBaymaxDialog(response, baymaxImage, dialogType)
         );
     }
 

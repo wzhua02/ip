@@ -9,6 +9,7 @@ import baymax.util.Storage;
  * Represents a command to show an error message
  */
 public class ErrorCommand extends Command {
+    public static final String COMMAND_ID = "error";
     private String errorMessage;
 
     /**
@@ -23,7 +24,7 @@ public class ErrorCommand extends Command {
     @Override
     public void execute(GuiController guiController, Storage storage, TaskList tasks) {
         guiController.addUserDialog();
-        String response = errorMessage;
-        guiController.addBaymaxDialog(response);
+        String reply = errorMessage;
+        guiController.addBaymaxDialog(reply, COMMAND_ID);
     }
 }

@@ -68,10 +68,10 @@ public class DialogBox extends HBox {
         }
         }
     }
-    public static DialogBox getBaymaxDialog(String text, Image img) {
+    public static DialogBox getBaymaxDialog(String text, Image img, String dialogType) {
         var db = new DialogBox(text, img);
         db.flip();
-        //db.changeDialogStyle(commandType);
+        db.changeDialogStyle(dialogType);
         return db;
     }
 

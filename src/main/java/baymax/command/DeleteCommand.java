@@ -6,6 +6,7 @@ import baymax.task.TaskList;
 import baymax.util.Storage;
 
 public class DeleteCommand extends Command {
+    public static final String COMMAND_ID = "delete";
     private int targetIndex;
 
     /**
@@ -25,6 +26,6 @@ public class DeleteCommand extends Command {
         guiController.addUserDialog();
         String reply = "Task removed!\n" + "   " + theTask + "\nNow you have " + tasks.size()
                 + " tasks in the list.";
-        guiController.addBaymaxDialog(reply);
+        guiController.addBaymaxDialog(reply, COMMAND_ID);
     }
 }
