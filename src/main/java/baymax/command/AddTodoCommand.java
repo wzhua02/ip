@@ -34,7 +34,7 @@ public class AddTodoCommand extends Command {
         tasks.addTask(newTodo);
         tasks.save(storage);
         guiController.addUserDialog();
-        String reply = "Got it. Added this task:\n" + newTodo + "\nNow you have " + tasks.size()
+        String reply = "Got it. Added this task:\n" + newTodo + "\nNow you have " + tasks.getSize()
                 + " tasks in the list.";
         guiController.addBaymaxDialog(reply, COMMAND_ID);
     }

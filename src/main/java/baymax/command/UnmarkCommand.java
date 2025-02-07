@@ -32,7 +32,7 @@ public class UnmarkCommand extends Command {
     @Override
     public void execute(GuiController guiController, Storage storage, TaskList tasks) {
         Task theTask = tasks.getTask(targetIndex);
-        theTask.marker(false);
+        theTask.unmarkTask();
         tasks.save(storage);
         guiController.addUserDialog();
         String reply = "Okie this is marked as not done yet:\n" + theTask;

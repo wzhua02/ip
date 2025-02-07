@@ -28,12 +28,17 @@ public abstract class Task {
     }
 
     /**
-     * Marks or unmarks the task as completed.
-     *
-     * @param mark {@code true} to mark as done, {@code false} to unmark.
+     * Marks the task as completed.
      */
-    public void marker(boolean mark) {
-        this.isDone = mark;
+    public void markTask() {
+        this.isDone = true;
+    }
+
+    /**
+     * Marks the task as not completed.
+     */
+    public void unmarkTask() {
+        this.isDone = false;
     }
 
     /**

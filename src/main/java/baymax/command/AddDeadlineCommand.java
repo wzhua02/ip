@@ -36,7 +36,7 @@ public class AddDeadlineCommand extends Command {
         guiController.addUserDialog();
 
         String reply = "Got it. Added this task:\n" + newDeadline + "\nNow you have "
-                + tasks.size() + " tasks in the list.";
+                + tasks.getSize() + " tasks in the list.";
         guiController.addBaymaxDialog(reply, COMMAND_ID);
     }
 }

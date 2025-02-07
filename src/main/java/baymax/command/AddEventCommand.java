@@ -34,7 +34,7 @@ public class AddEventCommand extends Command {
         tasks.addTask(newEvent);
         tasks.save(storage);
         guiController.addUserDialog();
-        String reply = "Got it. Added this task:\n" + newEvent + "\nNow you have " + tasks.size()
+        String reply = "Got it. Added this task:\n" + newEvent + "\nNow you have " + tasks.getSize()
                 + " tasks in the list.";
         guiController.addBaymaxDialog(reply, COMMAND_ID);
     }

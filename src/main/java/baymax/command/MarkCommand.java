@@ -32,7 +32,7 @@ public class MarkCommand extends Command {
     @Override
     public void execute(GuiController guiController, Storage storage, TaskList tasks) {
         Task theTask = tasks.getTask(targetIndex);
-        theTask.marker(true);
+        theTask.markTask();
         tasks.save(storage);
         guiController.addUserDialog();
         String reply = "Okie dokie this is marked as done:\n" + theTask;

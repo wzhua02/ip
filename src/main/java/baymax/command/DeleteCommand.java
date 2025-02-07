@@ -35,7 +35,7 @@ public class DeleteCommand extends Command {
         tasks.removeTask(theTask);
         tasks.save(storage);
         guiController.addUserDialog();
-        String reply = "Task removed!\n" + "   " + theTask + "\nNow you have " + tasks.size()
+        String reply = "Task removed!\n" + "   " + theTask + "\nNow you have " + tasks.getSize()
                 + " tasks in the list.";
         guiController.addBaymaxDialog(reply, COMMAND_ID);
     }

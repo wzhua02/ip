@@ -118,9 +118,9 @@ public class TaskList {
     /**
      * Returns the number of tasks in the list.
      *
-     * @return The size of the task list.
+     * @return The getSize of the task list.
      */
-    public int size() {
+    public int getSize() {
         return taskList.size();
     }
 
