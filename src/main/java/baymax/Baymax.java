@@ -34,8 +34,6 @@ public class Baymax {
      * Processes the user input and returns the corresponding response.
      *
      * @param input The user input as a string.
-     * @return A String array, where the first value is the command type the second value is the response generated
-     *      after parsing the input.
      */
     public void getResponse(String input) {
         try {
@@ -45,7 +43,6 @@ public class Baymax {
                 PauseTransition delay = new PauseTransition(Duration.seconds(3));
                 delay.setOnFinished(event -> Platform.exit());
                 delay.play();
-                System.exit(0);
             }
         } catch (BaymaxException e) {
             ErrorCommand errorCommand = new ErrorCommand(e.getMessage());

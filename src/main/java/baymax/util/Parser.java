@@ -26,10 +26,11 @@ import baymax.task.Todo;
 public class Parser {
     private static final String INDENT = "    ";
     /**
-     * Parses the user input and executes the appropriate command.
+     * Parses the user input and returns the appropriate {@code Command}.
      *
-     * @param input   The user input string.
-     * @return A String that Baymax will reply to the user based on the input.
+     * @param input The user input string.
+     * @return A {@code Command} object that corresponds to the given input.
+     * @throws BaymaxException If the input command is invalid or improperly formatted.
      */
     public static Command parse(String input) throws BaymaxException {
         String[] args = input.split(" ");

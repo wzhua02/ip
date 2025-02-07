@@ -21,7 +21,7 @@ public class MainWindow extends AnchorPane {
     private Button sendButton;
 
     /**
-     * binds guiController to textField and VBox
+     * Binds the GUI controller to the text field and dialog container.
      */
     @FXML
     public void initialize() {
@@ -32,8 +32,11 @@ public class MainWindow extends AnchorPane {
     }
 
     /**
-     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
-     * the dialog container. Clears the user input after processing.
+     * Handles user input by passing it to the chatbot for processing.
+     * Creates two dialog boxes: one echoing the user's input and another containing the chatbot's reply.
+     * Clears the user input after processing.
+     *
+     * @throws InterruptedException if the thread is interrupted while processing.
      */
     @FXML
     private void handleUserInput() throws InterruptedException {
@@ -41,4 +44,3 @@ public class MainWindow extends AnchorPane {
         guiController.getResponse();
     }
 }
-

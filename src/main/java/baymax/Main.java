@@ -13,9 +13,6 @@ import javafx.stage.Stage;
  * A GUI for Baymax using FXML.
  */
 public class Main extends Application {
-
-    private Baymax baymax = new Baymax();
-
     @Override
     public void start(Stage stage) {
         try {

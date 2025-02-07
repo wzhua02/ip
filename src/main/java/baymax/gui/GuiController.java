@@ -5,13 +5,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 
+/**
+ * Controls the graphical user interface (GUI) interactions for the chatbot.
+ */
 public class GuiController {
     private static GuiController instance = null;
     private TextField userTextField;
     private VBox dialogContainer;
     private Baymax baymax;
 
-    /** images for user and owen */
+    /** Images representing the user and Baymax. */
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/hiro.png"));
     private Image baymaxImage = new Image(this.getClass().getResourceAsStream("/images/baymax.jpeg"));
 
@@ -66,7 +69,7 @@ public class GuiController {
     }
 
     /**
-     * add owen dialog box to dialog container
+     * add baymax dialog box to dialog container
      *
      * @param response response from processed command
      */
