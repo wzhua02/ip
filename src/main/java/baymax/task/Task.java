@@ -3,7 +3,7 @@ package baymax.task;
 /**
  * Represents an abstract task with a description and completion status.
  */
-public abstract class Task {
+public abstract class Task implements Comparable<Task> {
     protected String description;
     protected boolean isDone;
 
@@ -39,6 +39,47 @@ public abstract class Task {
      */
     public void unmarkTask() {
         this.isDone = false;
+    }
+
+    /**
+     * Compares this task with another task for ordering.
+     * Tasks are first compared based on completion status (unfinished tasks first).
+     * If both tasks have the same completion status, they are sorted alphabetically by description.
+     *
+     * @param other The other task to compare to.
+     * @return A negative integer, zero, or a positive integer as this task
+     *         is less than, equal to, or greater than the specified task.
+     */
+    @Override
+    public int compareTo(Task other) {
+        // Determine type priority: Task (0), Deadline (1), Event (2)
+        int thisType = this instanceof Event ? 2 : (this instanceof Deadline ? 1 : 0);
+        int otherType = other instanceof Event ? 2 : (other instanceof Deadline ? 1 : 0);
+
+        // Sort by type priority (Tasks < Deadlines < Events)
+        if (thisType != otherType) {
+            return Integer.compare(thisType, otherType);
+        }
+
+        // If both are Deadline tasks, sort by deadlineDate
+        if (this instanceof Deadline && other instanceof Deadline) {
+            Deadline thisDeadline = (Deadline) this;
+            Deadline otherDeadline = (Deadline) other;
+            return thisDeadline.deadlineDate.compareTo(otherDeadline.deadlineDate);
+        }
+
+        // If both are Event tasks, sort by fromDate
+        if (this instanceof Event && other instanceof Event) {
+            Event thisEvent = (Event) this;
+            Event otherEvent = (Event) other;
+            return thisEvent.fromDate.compareTo(otherEvent.fromDate);
+        }
+
+        // Default sorting: isDone first, then alphabetically by description
+        if (this.isDone != other.isDone) {
+            return Boolean.compare(this.isDone, other.isDone);
+        }
+        return this.description.compareToIgnoreCase(other.description);
     }
 
     /**
