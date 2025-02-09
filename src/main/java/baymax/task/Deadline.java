@@ -64,7 +64,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toSaveFormat() {
-        return "D | " + (isDone ? "1" : "0") + " | " + getDescription() + " | "
+        return "D | " + super.toSaveFormat() + " | "
                 + this.deadlineDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 }
