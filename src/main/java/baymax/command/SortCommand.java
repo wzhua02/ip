@@ -4,6 +4,9 @@ import baymax.gui.GuiController;
 import baymax.task.TaskList;
 import baymax.util.Storage;
 
+/**
+ * Represents a command to sort the tasks in the task list.
+ */
 public class SortCommand extends Command {
     public static final String COMMAND_ID = "sort";
     /**
