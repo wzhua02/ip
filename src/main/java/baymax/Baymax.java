@@ -18,7 +18,7 @@ import javafx.util.Duration;
 public class Baymax {
     private final Storage storage;
     private final TaskList tasks;
-    private GuiController gui;
+    private final GuiController gui;
 
     /**
      * Constructs a Baymax instance.

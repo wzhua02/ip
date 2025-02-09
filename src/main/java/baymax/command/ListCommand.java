@@ -20,9 +20,8 @@ public class ListCommand extends Command {
      */
     @Override
     public void execute(GuiController guiController, Storage storage, TaskList tasks) {
-        String replyLine = tasks.listTasks();
         guiController.addUserDialog();
-        String reply = "Here are your tasks:\n" + replyLine;
+        String reply = "Here are your tasks:\n" + tasks.listTasks();
         guiController.addBaymaxDialog(reply, COMMAND_ID);
     }
 }
