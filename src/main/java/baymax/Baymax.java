@@ -45,6 +45,7 @@ public class Baymax {
                 delay.play();
             }
         } catch (BaymaxException e) {
+            assert !e.getMessage().isBlank() : "Exception should have a message";
             ErrorCommand errorCommand = new ErrorCommand(e.getMessage());
             errorCommand.execute(gui, storage, tasks);
         }
