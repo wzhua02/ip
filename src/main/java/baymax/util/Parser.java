@@ -40,68 +40,42 @@ public class Parser {
      */
     public static Command parse(String input) throws BaymaxException {
         String[] args = input.split(" ");
-        String cmd = args[0].toLowerCase();
-
-        switch (cmd) {
+        switch (args[0].toLowerCase()) {
         case "list" -> {
             return new ListCommand();
         }
         case "mark" -> {
-            if (args.length < 2) {
-                throw new BaymaxException("Do let me know which task to mark/unmark.");
-            }
-            int idx = Integer.parseInt(args[1]) - 1;
-            return new MarkCommand(idx);
+            checkArgsExists(args, "Do let me know which task to mark/unmark.");
+            return new MarkCommand(Integer.parseInt(args[1]) - 1);
         }
         case "unmark" -> {
-            if (args.length < 2) {
-                throw new BaymaxException("Do let me know which task to mark/unmark.");
-            }
-            int idx = Integer.parseInt(args[1]) - 1;
-            return new UnmarkCommand(idx);
+            checkArgsExists(args, "Do let me know which task to mark/unmark.");
+            return new UnmarkCommand(Integer.parseInt(args[1]) - 1);
         }
         case "todo" -> {
-            int spaceIdx = input.indexOf(" ");
-            if (spaceIdx < 0) {
-                throw new BaymaxException("Let me know what task you wish to add.");
-            }
-            String taskDescribe = input.substring(spaceIdx + 1);
-            Todo newTodo = new Todo(taskDescribe);
-            return new AddTodoCommand(newTodo);
+            checkArgsExists(args, "Let me know what task you wish to add.");
+            String taskDescription = input.substring(input.indexOf(" ") + 1);
+            return new AddTodoCommand(new Todo(taskDescription));
         }
         case "deadline" -> {
-            int spaceIdx = input.indexOf(" ");
-            if (spaceIdx < 0) {
-                throw new BaymaxException("Let me know what task you wish to add.");
-            }
-            int byIdx = input.indexOf("/by");
-            if (byIdx < 0) {
-                throw new BaymaxException("Let me know the deadline of the task.");
-            }
-            String taskDescribe = input.substring(spaceIdx + 1, byIdx - 1);
-            String deadlineString = input.substring(byIdx + 4);
-            Deadline newDeadline = new Deadline(taskDescribe, Parser.parseDateTime(deadlineString));
-            return new AddDeadlineCommand(newDeadline);
+            checkArgsExists(args, "Let me know what task you wish to add.");
+            int byIdx = getParamIndex(input, "/by ", "Let me know the deadline of the task.");
+            String taskDescription = input.substring(input.indexOf(" ") + 1, byIdx - 1);
+            String deadlineDate = input.substring(byIdx + 4);
+            return new AddDeadlineCommand(new Deadline(taskDescription, Parser.parseDateTime(deadlineDate)));
         }
         case "event" -> {
-            int spaceIdx = input.indexOf(" ");
-            if (spaceIdx < 0) {
-                throw new BaymaxException("Let me know what task you wish to add.");
-            }
-            int fromIdx = input.indexOf("/from");
-            int toIdx = input.indexOf("/to");
-            if (fromIdx < 0 || toIdx < 0) {
-                throw new BaymaxException("Let me know when the event starts and ends.");
-            }
-            String taskDescribe = input.substring(spaceIdx + 1, fromIdx - 1);
+            checkArgsExists(args, "Let me know what task you wish to add.");
+            int fromIdx = getParamIndex(input, "/from ", "Let me know when the event starts.");
+            int toIdx = getParamIndex(input, "/to ", "Let me know when the event ends.");
+            String taskDescription = input.substring(input.indexOf(" ") + 1, fromIdx - 1);
             String fromDate = input.substring(fromIdx + 6, toIdx - 1);
             String toDate = input.substring(toIdx + 4);
-            Event newEvent = new Event(taskDescribe, Parser.parseDateTime(fromDate), Parser.parseDateTime(toDate));
-            return new AddEventCommand(newEvent);
+            return new AddEventCommand(new Event(taskDescription, Parser.parseDateTime(fromDate),
+                    Parser.parseDateTime(toDate)));
         }
         case "delete" -> {
-            int idx = Integer.parseInt(args[1]) - 1;
-            return new DeleteCommand(idx);
+            return new DeleteCommand(Integer.parseInt(args[1]) - 1);
         }
         case "bye" -> {
             return new ByeCommand();
@@ -110,12 +84,43 @@ public class Parser {
             return new HelloCommand();
         }
         case "find" -> {
+            checkArgsExists(args, "Let me know what task you are looking for.");
             return new FindCommand(args[1]);
         }
         default -> {
             throw new BaymaxException("I cannot comprehend what you are saying.");
         }
         }
+    }
+    /**
+     * Checks if the required arguments exist in the input array.
+     * Throws a BaymaxException if the number of arguments is insufficient.
+     *
+     * @param args The array of command arguments.
+     * @param errorMsg The error message to display if arguments are missing.
+     * @throws BaymaxException If the arguments length is less than 2.
+     */
+    private static void checkArgsExists(String[] args, String errorMsg) throws BaymaxException {
+        if (args.length < 2) {
+            throw new BaymaxException(errorMsg);
+        }
+    }
+    /**
+     * Finds the index of a specified parameter indicator within the input string.
+     * If the parameter indicator is not found, throws a {@code BaymaxException} with the provided error message.
+     *
+     * @param input The input string to search within.
+     * @param paramIndicator The substring representing the parameter indicator (e.g., "/by ", "/from ").
+     * @param errorMsg The error message to be thrown if the parameter indicator is not found.
+     * @return The index of the parameter indicator within the input string.
+     * @throws BaymaxException If the parameter indicator is not found in the input string.
+     */
+    private static int getParamIndex(String input, String paramIndicator, String errorMsg) throws BaymaxException {
+        int targetIdx = input.indexOf(paramIndicator);
+        if (targetIdx < 0) {
+            throw new BaymaxException(errorMsg);
+        }
+        return targetIdx;
     }
     /**
      * Parses a date-time string into a LocalDateTime object.
