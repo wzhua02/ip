@@ -14,6 +14,7 @@ import baymax.command.FindCommand;
 import baymax.command.HelloCommand;
 import baymax.command.ListCommand;
 import baymax.command.MarkCommand;
+import baymax.command.SortCommand;
 import baymax.command.UnmarkCommand;
 import baymax.exception.BaymaxException;
 import baymax.task.Deadline;
@@ -86,6 +87,9 @@ public class Parser {
         case "find" -> {
             checkArgsExists(args, "Let me know what task you are looking for.");
             return new FindCommand(args[1]);
+        }
+        case "sort" -> {
+            return new SortCommand();
         }
         default -> {
             throw new BaymaxException("I cannot comprehend what you are saying.");
