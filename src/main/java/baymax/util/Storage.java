@@ -47,17 +47,17 @@ public class Storage {
      * @return an ArrayList containing the tasks read from the file
      */
     public ArrayList<String> load() {
-        ArrayList<String> returnList = new ArrayList<>();
+        ArrayList<String> listFromFile = new ArrayList<>();
         try {
             Scanner fileScanner = new Scanner(dataFile);
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
-                returnList.add(line);
+                listFromFile.add(line);
             }
         } catch (IOException e) {
-            System.err.println("Scanner Error: " + e.getMessage());
+            System.err.println("File Read Error: " + e.getMessage());
         }
-        return returnList;
+        return listFromFile;
     }
 
     /**
@@ -66,12 +66,8 @@ public class Storage {
      * @param saveList an ArrayList containing the tasks to be saved to the file
      */
     public void save(ArrayList<String> saveList) {
-        try {
-            PrintWriter writer = new PrintWriter(new FileWriter(dataFile));
-            for (String task : saveList) {
-                writer.println(task);
-            }
-            writer.close();
+        try (PrintWriter writer = new PrintWriter(new FileWriter(dataFile))) {
+            saveList.forEach(writer::println);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
