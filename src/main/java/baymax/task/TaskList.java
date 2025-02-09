@@ -1,6 +1,7 @@
 package baymax.task;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -60,7 +61,6 @@ public class TaskList {
                 .mapToObj(i -> (i + 1) + ". " + taskList.get(i))
                 .collect(Collectors.joining("\n"));
     }
-
     /**
      * Returns a formatted string of tasks that contain the specified search term.
      *
@@ -74,6 +74,26 @@ public class TaskList {
         return IntStream.range(0, taskList.size())
                 .filter(i -> taskList.get(i).toString().toLowerCase().contains(findTask.toLowerCase()))
                 .mapToObj(i -> (i + 1) + ". " + taskList.get(i))
+                .collect(Collectors.joining("\n"));
+    }
+    /**
+     * Sorts the tasks in the task list based on the defined ordering in the Task class.
+     * The sorting order is as follows:
+     * 1. Regular Tasks (sorted by completion status, then alphabetically)
+     * 2. Deadline Tasks (sorted by deadline date)
+     * 3. Event Tasks (sorted by start date)
+     *
+     * @return A formatted string representation of the sorted tasks.
+     *         If the list is empty, returns "No tasks found!".
+     */
+    public String sortTasks() {
+        if (taskList.isEmpty()) {
+            return "No tasks found!";
+        }
+        ArrayList<Task> sortedTaskList = taskList;
+        Collections.sort(sortedTaskList);
+        return "Tasks:\n" + IntStream.range(0, sortedTaskList.size())
+                .mapToObj(i -> (i + 1) + ". " + sortedTaskList.get(i))
                 .collect(Collectors.joining("\n"));
     }
 
