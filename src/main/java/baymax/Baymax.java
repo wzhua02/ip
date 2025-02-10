@@ -1,5 +1,8 @@
 package baymax;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import baymax.command.Command;
 import baymax.command.ErrorCommand;
 import baymax.exception.BaymaxException;
@@ -16,6 +19,8 @@ import javafx.util.Duration;
  * Handles user interactions and task management.
  */
 public class Baymax {
+    private static final Path FILE_PATH = Paths.get("data", "tasks.txt");
+
     private final Storage storage;
     private final TaskList tasks;
     private final GuiController gui;
@@ -26,7 +31,7 @@ public class Baymax {
     public Baymax() {
         gui = GuiController.getInstance();
         gui.setBaymax(this);
-        storage = new Storage();
+        storage = new Storage(FILE_PATH);
         tasks = new TaskList(storage.load());
     }
 

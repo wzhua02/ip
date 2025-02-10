@@ -16,7 +16,6 @@ import java.util.Scanner;
  * It provides methods to load data from the file and save data to the file.
  */
 public class Storage {
-    private static final Path FILE_PATH = Paths.get("data", "tasks.txt");
     private File dataFile; // The file where tasks are stored
 
     /**
@@ -24,11 +23,11 @@ public class Storage {
      * If the file does not exist, it creates the file and its parent directories.
      *
      */
-    public Storage() {
+    public Storage(Path filePath) {
         try {
-            dataFile = new File(FILE_PATH.toString());
+            dataFile = new File(filePath.toString());
             if (!dataFile.exists()) {
-                File dataDir = new File(FILE_PATH.getParent().toString());
+                File dataDir = new File(filePath.getParent().toString());
                 dataDir.mkdirs();
                 dataFile.createNewFile();
                 System.out.println("\"tasks.txt\" not found in directory. Created a new one.");
