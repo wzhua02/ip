@@ -29,6 +29,7 @@ jobs:
         with:
           java-version: '17'
           java-package: jdk+fx
+          overwrite-settings: false
 
       - name: Build and check with Gradle
         run: ./gradlew check
