@@ -36,10 +36,9 @@ public class MainWindow extends AnchorPane {
      * Creates two dialog boxes: one echoing the user's input and another containing the chatbot's reply.
      * Clears the user input after processing.
      *
-     * @throws InterruptedException if the thread is interrupted while processing.
      */
     @FXML
-    private void handleUserInput() throws InterruptedException {
+    private void handleUserInput() {
         GuiController guiController = GuiController.getInstance();
         guiController.getResponse();
     }
