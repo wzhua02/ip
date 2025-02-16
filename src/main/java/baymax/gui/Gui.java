@@ -19,9 +19,9 @@ public class Gui {
     private Image baymaxImage = new Image(this.getClass().getResourceAsStream("/images/baymax.jpeg"));
 
     /**
-     * get singleton instance of GUI controller
+     * Returns singleton instance of the GUI
      *
-     * @return singleton instance of GUI controller
+     * @return singleton instance of GUI
      */
     public static Gui getInstance() {
         if (instance == null) {
@@ -31,7 +31,7 @@ public class Gui {
     }
 
     /**
-     * set instance of chatbot for GUI controller
+     * Sets instance of chatbot for GUI
      *
      * @param b instance of chatbot
      */
@@ -40,7 +40,7 @@ public class Gui {
     }
 
     /**
-     * set user text field for GUI controller
+     * Sets user text field for GUI
      *
      * @param userTextField text field for user input
      */
@@ -49,7 +49,7 @@ public class Gui {
     }
 
     /**
-     * set dialog container for GUI controller
+     * Sets dialog container for GUI
      *
      * @param dialogContainer container for dialog
      */
@@ -58,7 +58,7 @@ public class Gui {
     }
 
     /**
-     * add user dialog box to dialog container
+     * Adds user dialog box to dialog container
      */
     public void addUserDialog() {
         String input = userTextField.getText();
@@ -69,7 +69,7 @@ public class Gui {
     }
 
     /**
-     * add baymax dialog box to dialog container
+     * Adds baymax dialog box to dialog container
      *
      * @param response response from processed command
      */
@@ -80,7 +80,7 @@ public class Gui {
     }
 
     /**
-     * call chatbot to evaluate user input
+     * Calls chatbot to evaluate user input
      */
     public void getResponse() {
         baymax.getResponse(userTextField.getText());
