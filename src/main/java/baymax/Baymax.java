@@ -19,7 +19,7 @@ import javafx.util.Duration;
  * Handles user interactions and task management.
  */
 public class Baymax {
-    private static final Path FILE_PATH = Paths.get("data", "tasks.txt");
+    private static final Path FILE_PATH = Paths.get("./", "data", "tasks.txt");
 
     private final Storage storage;
     private final TaskList tasks;
