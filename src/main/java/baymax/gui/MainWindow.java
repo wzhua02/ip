@@ -31,6 +31,8 @@ public class MainWindow extends AnchorPane {
         gui.setUserTextField(userInput);
         Baymax baymax = new Baymax();
         gui.setBaymax(baymax);
+        String reply = "Hello! I'm Baymax\n" + "How can I assist you?";
+        gui.addBaymaxDialog(reply, "hello");
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
