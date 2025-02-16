@@ -55,25 +55,15 @@ public class Parser {
         }
         case "todo" -> {
             checkArgsExists(args, "Let me know what task you wish to add.");
-            String taskDescription = input.substring(input.indexOf(" ") + 1);
-            return new AddTodoCommand(new Todo(taskDescription));
+            return createTodoCommand(input);
         }
         case "deadline" -> {
             checkArgsExists(args, "Let me know what task you wish to add.");
-            int byIdx = getParamIndex(input, "/by ", "Let me know the deadline of the task.");
-            String taskDescription = input.substring(input.indexOf(" ") + 1, byIdx - 1);
-            String deadlineDate = input.substring(byIdx + 4);
-            return new AddDeadlineCommand(new Deadline(taskDescription, Parser.parseDateTime(deadlineDate)));
+            return createDeadlineCommand(input);
         }
         case "event" -> {
             checkArgsExists(args, "Let me know what task you wish to add.");
-            int fromIdx = getParamIndex(input, "/from ", "Let me know when the event starts.");
-            int toIdx = getParamIndex(input, "/to ", "Let me know when the event ends.");
-            String taskDescription = input.substring(input.indexOf(" ") + 1, fromIdx - 1);
-            String fromDate = input.substring(fromIdx + 6, toIdx - 1);
-            String toDate = input.substring(toIdx + 4);
-            return new AddEventCommand(new Event(taskDescription, Parser.parseDateTime(fromDate),
-                    Parser.parseDateTime(toDate)));
+            return createEventCommand(input);
         }
         case "delete" -> {
             checkArgsExists(args, "Let me know what task you are looking for.");
@@ -97,6 +87,48 @@ public class Parser {
         }
         }
     }
+    /**
+     * Creates an AddTodoCommand with the given input string.
+     *
+     * @param input The input string containing the task description.
+     * @return An AddTodoCommand containing a new Todo task.
+     */
+    private static AddTodoCommand createTodoCommand(String input) {
+        String taskDescription = input.substring(input.indexOf(" ") + 1);
+        return new AddTodoCommand(new Todo(taskDescription));
+    }
+
+    /**
+     * Creates an AddDeadlineCommand with the given input string.
+     *
+     * @param input The input string containing the task description and deadline.
+     * @return An AddDeadlineCommand containing a new Deadline task.
+     * @throws BaymaxException If the deadline parameter is missing.
+     */
+    private static AddDeadlineCommand createDeadlineCommand(String input) throws BaymaxException {
+        int byIdx = getParamIndex(input, "/by ", "Let me know the deadline of the task.");
+        String taskDescription = input.substring(input.indexOf(" ") + 1, byIdx - 1);
+        String deadlineDate = input.substring(byIdx + 4);
+        return new AddDeadlineCommand(new Deadline(taskDescription, Parser.parseDateTime(deadlineDate)));
+    }
+
+    /**
+     * Creates an AddEventCommand with the given input string.
+     *
+     * @param input The input string containing the task description, start time, and end time.
+     * @return An AddEventCommand containing a new Event task.
+     * @throws BaymaxException If the start or end time parameters are missing.
+     */
+    private static AddEventCommand createEventCommand(String input) throws BaymaxException {
+        int fromIdx = getParamIndex(input, "/from ", "Let me know when the event starts.");
+        int toIdx = getParamIndex(input, "/to ", "Let me know when the event ends.");
+        String taskDescription = input.substring(input.indexOf(" ") + 1, fromIdx - 1);
+        String fromDate = input.substring(fromIdx + 6, toIdx - 1);
+        String toDate = input.substring(toIdx + 4);
+        return new AddEventCommand(new Event(taskDescription, Parser.parseDateTime(fromDate),
+                Parser.parseDateTime(toDate)));
+    }
+
     /**
      * Checks if the required arguments exist in the input array.
      * Throws a BaymaxException if the number of arguments is insufficient.
