@@ -76,6 +76,7 @@ public class Parser {
                     Parser.parseDateTime(toDate)));
         }
         case "delete" -> {
+            checkArgsExists(args, "Let me know what task you are looking for.");
             return new DeleteCommand(Integer.parseInt(args[1]) - 1);
         }
         case "bye" -> {
