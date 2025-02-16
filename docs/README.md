@@ -1,23 +1,20 @@
-# Duke User Guide
+# Baymax User Guide
+![GUI](./Ui.png)
 
-// Update the title above to match the actual product name
-
-// Product screenshot goes here
-
-// Product intro goes here
+This is Baymax, your personal task companion!
 
 ## Adding deadlines
 
-// Describe the action and its outcome.
+Tell Baymax that you want to add a task with a deadline
 
-// Give examples of usage
+Example: `deadline Finish homework /by 2025-01-27 12:30`
 
-Example: `keyword (optional arguments)`
-
-// A description of the expected outcome goes here
+Baymax should respond accordingly
 
 ```
-expected output
+Got it. Added this task: 
+Finish homework 
+Now you have 20 tasks in the list.
 ```
 
 ## Feature ABC
