@@ -1,5 +1,6 @@
 package baymax.gui;
 
+import baymax.Baymax;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -28,6 +29,8 @@ public class MainWindow extends AnchorPane {
         Gui gui = Gui.getInstance();
         gui.setDialogContainer(dialogContainer);
         gui.setUserTextField(userInput);
+        Baymax baymax = new Baymax();
+        gui.setBaymax(baymax);
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
