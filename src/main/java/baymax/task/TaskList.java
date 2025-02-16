@@ -50,6 +50,7 @@ public class TaskList {
 
     /**
      * Returns a formatted string of all tasks in the task list.
+     * Stream function is adapted from @samuelneo
      *
      * @return A string representation of the task list, or a message if the list is empty.
      */
@@ -63,6 +64,7 @@ public class TaskList {
     }
     /**
      * Returns a formatted string of tasks that contain the specified search term.
+     * Stream function is adapted from @samuelneo
      *
      * @param findTask The keyword to search for within task descriptions.
      * @return A string representation of tasks matching the search term, or a message if no tasks are found.

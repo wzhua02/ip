@@ -1,6 +1,6 @@
 package baymax.command;
 
-import baymax.gui.GuiController;
+import baymax.gui.Gui;
 import baymax.task.Deadline;
 import baymax.task.TaskList;
 import baymax.util.Storage;
@@ -25,18 +25,18 @@ public class AddDeadlineCommand extends Command {
      * Executes the command by adding the deadline task to the task list,
      * saving the updated list to storage, and updating the GUI with the response.
      *
-     * @param guiController The GUI controller to handle user interactions.
+     * @param gui The GUI to handle user interactions.
      * @param storage The storage handler to save task data.
      * @param tasks The task list where the deadline will be added.
      */
     @Override
-    public void execute(GuiController guiController, Storage storage, TaskList tasks) {
+    public void execute(Gui gui, Storage storage, TaskList tasks) {
         tasks.addTask(newDeadline);
         tasks.save(storage);
-        guiController.addUserDialog();
+        gui.addUserDialog();
 
         String reply = "Got it. Added this task:\n" + newDeadline + "\nNow you have "
                 + tasks.getSize() + " tasks in the list.";
-        guiController.addBaymaxDialog(reply, COMMAND_ID);
+        gui.addBaymaxDialog(reply, COMMAND_ID);
     }
 }

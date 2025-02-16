@@ -1,7 +1,7 @@
 package baymax.command;
 
 
-import baymax.gui.GuiController;
+import baymax.gui.Gui;
 import baymax.task.TaskList;
 import baymax.util.Storage;
 
@@ -24,14 +24,14 @@ public class ErrorCommand extends Command {
     /**
      * Displays an error message to the user
      *
-     * @param guiController The GUI controller to handle user interactions.
+     * @param gui The GUI to handle user interactions.
      * @param storage The storage handler to save task data.
      * @param tasks The task list from which the task will be deleted.
      */
     @Override
-    public void execute(GuiController guiController, Storage storage, TaskList tasks) {
-        guiController.addUserDialog();
+    public void execute(Gui gui, Storage storage, TaskList tasks) {
+        gui.addUserDialog();
         String reply = errorMessage;
-        guiController.addBaymaxDialog(reply, COMMAND_ID);
+        gui.addBaymaxDialog(reply, COMMAND_ID);
     }
 }

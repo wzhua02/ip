@@ -1,6 +1,6 @@
 package baymax.command;
 
-import baymax.gui.GuiController;
+import baymax.gui.Gui;
 import baymax.task.TaskList;
 import baymax.util.Storage;
 
@@ -12,11 +12,11 @@ public abstract class Command {
     /**
      * Executes the command.
      *
-     * @param guiController the ui for text display
+     * @param gui the ui for text display
      * @param storage the storage for saving and loading tasks
      * @param tasks the task list to be modified
      */
-    public abstract void execute(GuiController guiController, Storage storage, TaskList tasks);
+    public abstract void execute(Gui gui, Storage storage, TaskList tasks);
 
     /**
      * Returns whether the command is an exit command.

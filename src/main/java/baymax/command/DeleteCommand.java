@@ -1,6 +1,6 @@
 package baymax.command;
 
-import baymax.gui.GuiController;
+import baymax.gui.Gui;
 import baymax.task.Task;
 import baymax.task.TaskList;
 import baymax.util.Storage;
@@ -25,18 +25,18 @@ public class DeleteCommand extends Command {
      * Executes the command by removing the specified task from the task list,
      * saving the updated list to storage, and updating the GUI with the response.
      *
-     * @param guiController The GUI controller to handle user interactions.
+     * @param gui The GUI to handle user interactions.
      * @param storage The storage handler to save task data.
      * @param tasks The task list from which the task will be deleted.
      */
     @Override
-    public void execute(GuiController guiController, Storage storage, TaskList tasks) {
+    public void execute(Gui gui, Storage storage, TaskList tasks) {
         Task theTask = tasks.getTask(targetIndex);
         tasks.removeTask(theTask);
         tasks.save(storage);
-        guiController.addUserDialog();
+        gui.addUserDialog();
         String reply = "Task removed!\n" + "   " + theTask + "\nNow you have " + tasks.getSize()
                 + " tasks in the list.";
-        guiController.addBaymaxDialog(reply, COMMAND_ID);
+        gui.addBaymaxDialog(reply, COMMAND_ID);
     }
 }

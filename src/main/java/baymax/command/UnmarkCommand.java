@@ -1,6 +1,6 @@
 package baymax.command;
 
-import baymax.gui.GuiController;
+import baymax.gui.Gui;
 import baymax.task.Task;
 import baymax.task.TaskList;
 import baymax.util.Storage;
@@ -25,17 +25,17 @@ public class UnmarkCommand extends Command {
      * Executes the command by unmarking the specified task as completed,
      * saving the updated task list to storage, and updating the GUI with the response.
      *
-     * @param guiController The GUI controller to handle user interactions.
+     * @param gui The GUI to handle user interactions.
      * @param storage The storage handler to save task data.
      * @param tasks The task list containing the task to be marked.
      */
     @Override
-    public void execute(GuiController guiController, Storage storage, TaskList tasks) {
+    public void execute(Gui gui, Storage storage, TaskList tasks) {
         Task theTask = tasks.getTask(targetIndex);
         theTask.unmarkTask();
         tasks.save(storage);
-        guiController.addUserDialog();
+        gui.addUserDialog();
         String reply = "Okie this is marked as not done yet:\n" + theTask;
-        guiController.addBaymaxDialog(reply, COMMAND_ID);
+        gui.addBaymaxDialog(reply, COMMAND_ID);
     }
 }

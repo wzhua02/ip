@@ -8,8 +8,8 @@ import javafx.scene.layout.VBox;
 /**
  * Controls the graphical user interface (GUI) interactions for the chatbot.
  */
-public class GuiController {
-    private static GuiController instance = null;
+public class Gui {
+    private static Gui instance = null;
     private TextField userTextField;
     private VBox dialogContainer;
     private Baymax baymax;
@@ -23,9 +23,9 @@ public class GuiController {
      *
      * @return singleton instance of GUI controller
      */
-    public static GuiController getInstance() {
+    public static Gui getInstance() {
         if (instance == null) {
-            instance = new GuiController();
+            instance = new Gui();
         }
         return instance;
     }

@@ -1,6 +1,6 @@
 package baymax.command;
 
-import baymax.gui.GuiController;
+import baymax.gui.Gui;
 import baymax.task.TaskList;
 import baymax.util.Storage;
 
@@ -24,15 +24,15 @@ public class FindCommand extends Command {
      * Executes the command by searching for tasks that contain the keyword,
      * and updating the GUI with the search results.
      *
-     * @param guiController The GUI controller to handle user interactions.
+     * @param gui The GUI to handle user interactions.
      * @param storage The storage handler (not used in this command).
      * @param tasks The task list to search for matching tasks.
      */
     @Override
-    public void execute(GuiController guiController, Storage storage, TaskList tasks) {
-        guiController.addUserDialog();
+    public void execute(Gui gui, Storage storage, TaskList tasks) {
+        gui.addUserDialog();
         String reply = "These are the tasks you are looking for:\n" + tasks.listTasks(findTask);
-        guiController.addBaymaxDialog(reply, COMMAND_ID);
+        gui.addBaymaxDialog(reply, COMMAND_ID);
 
     }
 }

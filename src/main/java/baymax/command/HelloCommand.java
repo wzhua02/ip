@@ -1,6 +1,6 @@
 package baymax.command;
 
-import baymax.gui.GuiController;
+import baymax.gui.Gui;
 import baymax.task.TaskList;
 import baymax.util.Storage;
 
@@ -13,14 +13,14 @@ public class HelloCommand extends Command {
     /**
      * Executes the command by displaying a welcome message and updating the GUI.
      *
-     * @param guiController The GUI controller to handle user interactions.
+     * @param gui The GUI to handle user interactions.
      * @param storage The storage handler (not used in this command).
      * @param tasks The task list (not modified in this command).
      */
     @Override
-    public void execute(GuiController guiController, Storage storage, TaskList tasks) {
-        guiController.addUserDialog();
+    public void execute(Gui gui, Storage storage, TaskList tasks) {
+        gui.addUserDialog();
         String reply = "Hello! I'm Baymax\n" + "How can I assist you?";
-        guiController.addBaymaxDialog(reply, COMMAND_ID);
+        gui.addBaymaxDialog(reply, COMMAND_ID);
     }
 }

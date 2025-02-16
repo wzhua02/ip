@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import baymax.command.Command;
 import baymax.command.ErrorCommand;
 import baymax.exception.BaymaxException;
-import baymax.gui.GuiController;
+import baymax.gui.Gui;
 import baymax.task.TaskList;
 import baymax.util.Parser;
 import baymax.util.Storage;
@@ -23,13 +23,13 @@ public class Baymax {
 
     private final Storage storage;
     private final TaskList tasks;
-    private final GuiController gui;
+    private final Gui gui;
 
     /**
      * Constructs a Baymax instance.
      */
     public Baymax() {
-        gui = GuiController.getInstance();
+        gui = Gui.getInstance();
         gui.setBaymax(this);
         storage = new Storage(FILE_PATH);
         tasks = new TaskList(storage.load());

@@ -21,13 +21,13 @@ public class MainWindow extends AnchorPane {
     private Button sendButton;
 
     /**
-     * Binds the GUI controller to the text field and dialog container.
+     * Binds the GUI to the text field and dialog container.
      */
     @FXML
     public void initialize() {
-        GuiController guiController = GuiController.getInstance();
-        guiController.setDialogContainer(dialogContainer);
-        guiController.setUserTextField(userInput);
+        Gui gui = Gui.getInstance();
+        gui.setDialogContainer(dialogContainer);
+        gui.setUserTextField(userInput);
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
@@ -39,7 +39,7 @@ public class MainWindow extends AnchorPane {
      */
     @FXML
     private void handleUserInput() {
-        GuiController guiController = GuiController.getInstance();
-        guiController.getResponse();
+        Gui gui = Gui.getInstance();
+        gui.getResponse();
     }
 }
