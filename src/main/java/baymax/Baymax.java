@@ -53,6 +53,9 @@ public class Baymax {
             assert !e.getMessage().isBlank() : "Exception should have a message";
             ErrorCommand errorCommand = new ErrorCommand(e.getMessage());
             errorCommand.execute(gui, storage, tasks);
+        } catch (IndexOutOfBoundsException e) {
+            ErrorCommand errorCommand = new ErrorCommand(e.getMessage());
+            errorCommand.execute(gui, storage, tasks);
         }
     }
 }

@@ -107,7 +107,10 @@ public class TaskList {
      * @param idx The index of the task (0-based).
      * @return The task at the specified index.
      */
-    public Task getTask(int idx) {
+    public Task getTask(int idx) throws BaymaxException {
+        if (idx < 0 || idx > taskList.size()) {
+            throw new BaymaxException("Please enter a valid task index");
+        }
         return taskList.get(idx);
     }
 

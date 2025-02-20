@@ -1,5 +1,6 @@
 package baymax.command;
 
+import baymax.exception.BaymaxException;
 import baymax.gui.Gui;
 import baymax.task.Task;
 import baymax.task.TaskList;
@@ -30,7 +31,7 @@ public class UnmarkCommand extends Command {
      * @param tasks The task list containing the task to be marked.
      */
     @Override
-    public void execute(Gui gui, Storage storage, TaskList tasks) {
+    public void execute(Gui gui, Storage storage, TaskList tasks) throws BaymaxException {
         Task theTask = tasks.getTask(targetIndex);
         theTask.unmarkTask();
         tasks.save(storage);
