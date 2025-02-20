@@ -3,7 +3,7 @@
 
 This is Baymax, your personal task companion!
 
-## Adding todos
+## Adding Todos
 
 Tell Baymax that you want to add a todo task 
 
@@ -17,7 +17,7 @@ Got it. Added this task:
 Now you have 20 tasks in the list.
 ```
 
-## Adding deadlines
+## Adding Deadlines
 
 Tell Baymax that you want to add a task with a deadline
 
@@ -31,7 +31,7 @@ Got it. Added this task:
 Now you have 20 tasks in the list.
 ```
 
-## Adding deadlines
+## Adding Events
 
 Tell Baymax that you want to add a task with a deadline
 
