@@ -152,7 +152,7 @@ public class Parser {
      * If the parameter indicator is not found, throws a {@code BaymaxException} with the provided error message.
      *
      * @param input The input string to search within.
-     * @param paramIndicator The substring representing the parameter indicator (e.g., "/by ", "/from ").
+     * @param paramIndicator The substring representing the parameter indicator (e.g.,"/by ", "/from ").
      * @param errorMsg The error message to be thrown if the parameter indicator is not found.
      * @return The index of the parameter indicator within the input string.
      * @throws BaymaxException If the parameter indicator is not found in the input string.
