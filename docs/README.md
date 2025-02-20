@@ -3,6 +3,20 @@
 
 This is Baymax, your personal task companion!
 
+## Adding todos
+
+Tell Baymax that you want to add a todo task 
+
+Example: `todo Finish homework`
+
+Baymax should respond accordingly
+
+```
+Got it. Added this task: 
+[T][] Finish homework 
+Now you have 20 tasks in the list.
+```
+
 ## Adding deadlines
 
 Tell Baymax that you want to add a task with a deadline
@@ -14,6 +28,20 @@ Baymax should respond accordingly
 ```
 Got it. Added this task: 
 [D][] Finish homework (by: 27 Jan 2025 12:30)
+Now you have 20 tasks in the list.
+```
+
+## Adding deadlines
+
+Tell Baymax that you want to add a task with a deadline
+
+Example: `event Run a marathon /from 2025-01-27 08:30 /to 2025-01-27 10:30`
+
+Baymax should respond accordingly
+
+```
+Got it. Added this task: 
+[E][] Run a marathon (from: 27 Jan 2025 08:30) (to: 27 Jan 2025 10:30)
 Now you have 20 tasks in the list.
 ```
 
@@ -75,4 +103,16 @@ Baymax should respond accordingly
 ```
 Okie dokie this is marked as done:
 [T][X] read book
+```
+
+## Exit program
+
+This command should close the program
+
+Example: `bye`
+
+Baymax should respond accordingly before closing the window
+
+```
+Goodbye! *slowly deflates*
 ```
