@@ -102,7 +102,7 @@ public class Parser {
     private static AddDeadlineCommand createDeadlineCommand(String input) throws BaymaxException {
         try {
             int byIdx = getParamIndex(input, "/by ", "Let me know the deadline of the task.");
-            String taskDescription = input.substring(input.indexOf("deadline ") + 1, byIdx - 1);
+            String taskDescription = input.substring(input.indexOf("deadline ") + 10, byIdx - 1);
             String deadlineDate = input.substring(byIdx + 4);
             return new AddDeadlineCommand(new Deadline(taskDescription, Parser.parseDateTime(deadlineDate)));
         } catch (StringIndexOutOfBoundsException e) {
@@ -124,7 +124,7 @@ public class Parser {
             if (toIdx < fromIdx) {
                 throw new BaymaxException("Please put /from before /to");
             }
-            String taskDescription = input.substring(input.indexOf(" ") + 1, fromIdx - 1);
+            String taskDescription = input.substring(input.indexOf("event ") + 7, fromIdx - 1);
             String fromDate = input.substring(fromIdx + 6, toIdx - 1);
             String toDate = input.substring(toIdx + 4);
             return new AddEventCommand(new Event(taskDescription, Parser.parseDateTime(fromDate),
