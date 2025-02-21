@@ -35,7 +35,7 @@ public class Parser {
      */
     public static Command parse(String input) throws BaymaxException {
         String[] args = input.split(" ");
-        switch (args[0].toLowerCase()) {
+        switch (args[0].trim().toLowerCase()) {
         case "list" -> {
             return new ListCommand();
         }
