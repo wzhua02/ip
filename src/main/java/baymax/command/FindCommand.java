@@ -31,8 +31,14 @@ public class FindCommand extends Command {
     @Override
     public void execute(Gui gui, Storage storage, TaskList tasks) {
         gui.addUserDialog();
-        String reply = "These are the tasks you are looking for:\n" + tasks.listTasks(findTask);
-        gui.addBaymaxDialog(reply, COMMAND_ID);
+        String reply = "These are the tasks you are looking for:\n";
+        String foundTasks = tasks.listTasks(findTask);
+        if (foundTasks.isBlank()) {
+            gui.addBaymaxDialog(reply + "No tasks found!", COMMAND_ID);
+        } else {
+            gui.addBaymaxDialog(reply + foundTasks, COMMAND_ID);
+        }
+
 
     }
 }

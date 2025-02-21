@@ -41,11 +41,11 @@ public class Parser {
         }
         case "mark" -> {
             checkArgsExists(args, "Do let me know which task to mark/unmark.");
-            return new MarkCommand(Integer.parseInt(args[1]) - 1);
+            return new MarkCommand(getInt(args[1]));
         }
         case "unmark" -> {
             checkArgsExists(args, "Do let me know which task to mark/unmark.");
-            return new UnmarkCommand(Integer.parseInt(args[1]) - 1);
+            return new UnmarkCommand(getInt(args[1]));
         }
         case "todo" -> {
             checkArgsExists(args, "Let me know what task you wish to add.");
@@ -61,7 +61,7 @@ public class Parser {
         }
         case "delete" -> {
             checkArgsExists(args, "Let me know what task you are looking for.");
-            return new DeleteCommand(Integer.parseInt(args[1]) - 1);
+            return new DeleteCommand(getInt(args[1]));
         }
         case "bye" -> {
             return new ByeCommand();
@@ -88,7 +88,7 @@ public class Parser {
      * @return An AddTodoCommand containing a new Todo task.
      */
     private static AddTodoCommand createTodoCommand(String input) {
-        String taskDescription = input.substring(input.indexOf(" ") + 1);
+        String taskDescription = input.substring(input.indexOf("todo ") + 5);
         return new AddTodoCommand(new Todo(taskDescription));
     }
 
@@ -145,6 +145,13 @@ public class Parser {
     private static void checkArgsExists(String[] args, String errorMsg) throws BaymaxException {
         if (args.length < 2) {
             throw new BaymaxException(errorMsg);
+        }
+    }
+    private static int getInt(String param) throws BaymaxException {
+        try {
+            return Integer.parseInt(param) - 1;
+        } catch (NumberFormatException e) {
+            throw new BaymaxException("Please enter a number");
         }
     }
     /**
